@@ -1,0 +1,23 @@
+extend type Product {
+  inStock: Boolean
+    @delegate(
+      schema: "inventory",
+      path: "inventoryInfo(upc: $fields:upc).isInStock")
+  reviews: [Review] 
+    @delegate(
+      schema: "reviews" 
+      path: "reviewsByProduct(upc: $fields:upc)")
+}
+
+extend type Review {
+  product: Product @delegate(schema: "products", path: "product(upc: $fields:upc)")
+  author: User @delegate(schema: "accounts", path: "user(id: $fields:authorId)")
+}
+
+extend type User {
+  reviews: [Review] @delegate(schema: "reviews" path:"reviewsByAuthor(authorId: $fields:id)")
+}
+
+
+
+

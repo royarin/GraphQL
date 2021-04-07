@@ -29,7 +29,7 @@ namespace Product.API
             
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Project.API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Product.API", Version = "v1" });
             });
 
             
@@ -44,7 +44,7 @@ namespace Product.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Project.API v1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Product.API v1");
                 });
             }
 

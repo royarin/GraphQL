@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Project.API.Models;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace Project.API.Data
+namespace Product.API.Data
 {
     public class ProductContext:DbContext
     {
@@ -14,15 +8,15 @@ namespace Project.API.Data
         {
         }
 
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Product.API.Models.Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<Product.API.Models.Product>()
                 .Property(x => x.Id)
                 .UseIdentityColumn();
             
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<Product.API.Models.Product>()
                 .HasIndex(x => x.SKU)
                 .IsUnique();
         }

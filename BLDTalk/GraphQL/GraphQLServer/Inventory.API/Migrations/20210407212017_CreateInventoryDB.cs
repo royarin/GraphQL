@@ -10,11 +10,14 @@ namespace Inventory.API.Migrations
                 name: "Inventory",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     SKU = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Stock = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Inventory", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(

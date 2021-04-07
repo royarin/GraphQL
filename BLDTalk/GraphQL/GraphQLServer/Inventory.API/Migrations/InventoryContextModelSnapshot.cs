@@ -20,11 +20,18 @@ namespace Inventory.API.Migrations
 
             modelBuilder.Entity("Inventory.API.Models.Inventory", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("SKU")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Stock")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("SKU")
                         .IsUnique()

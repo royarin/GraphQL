@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory.API.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    [Migration("20210407203414_CreateInventoryDB")]
+    [Migration("20210407212017_CreateInventoryDB")]
     partial class CreateInventoryDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,11 +22,18 @@ namespace Inventory.API.Migrations
 
             modelBuilder.Entity("Inventory.API.Models.Inventory", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("SKU")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Stock")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("SKU")
                         .IsUnique()

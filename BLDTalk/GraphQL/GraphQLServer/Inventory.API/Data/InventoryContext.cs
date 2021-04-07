@@ -20,9 +20,6 @@ namespace Inventory.API.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Models.Inventory>()
-                .HasNoKey();
-            
-            modelBuilder.Entity<Models.Inventory>()
                 .HasIndex(x => x.SKU)
                 .IsUnique();
         }

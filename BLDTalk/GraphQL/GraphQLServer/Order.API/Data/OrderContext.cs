@@ -20,9 +20,6 @@ namespace Order.API.Data
         {
             modelBuilder.Entity<Models.Order>()
                 .HasKey(x => x.OrderNumber);
-            
-            modelBuilder.Entity<Models.Order>()
-                .HasOne(x=>x.Address);
         }
     }
 }

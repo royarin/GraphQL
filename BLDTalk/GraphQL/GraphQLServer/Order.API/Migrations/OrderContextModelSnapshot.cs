@@ -19,36 +19,6 @@ namespace Order.API.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Order.API.Models.Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Address2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Address");
-                });
-
             modelBuilder.Entity("Order.API.Models.LineItem", b =>
                 {
                     b.Property<int>("Id")
@@ -79,12 +49,25 @@ namespace Order.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("int");
+                    b.Property<string>("DeliveryAddress1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeliveryAddress2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeliveryCity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeliveryCountry")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeliveryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeliveryPostCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OrderNumber");
-
-                    b.HasIndex("AddressId");
 
                     b.ToTable("Orders");
                 });
@@ -94,15 +77,6 @@ namespace Order.API.Migrations
                     b.HasOne("Order.API.Models.Order", null)
                         .WithMany("LineItems")
                         .HasForeignKey("OrderNumber");
-                });
-
-            modelBuilder.Entity("Order.API.Models.Order", b =>
-                {
-                    b.HasOne("Order.API.Models.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
-
-                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("Order.API.Models.Order", b =>

@@ -31,7 +31,7 @@ namespace Order.API.Controllers
         [HttpGet("{orderNumber}")]
         public async Task<IActionResult> GetOrder(int orderNumber)
         {
-            return new ObjectResult(await _context.Orders.FindAsync(orderNumber));
+            return new ObjectResult(await _context.Orders.Include(x=>x.LineItems).FirstOrDefaultAsync(x=>x.OrderNumber == orderNumber));
         }
 
         [HttpPost]

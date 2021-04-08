@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Order.API.Data;
+using Order.API.GraphQL.SchemaTypes;
 
 namespace Order.API
 {
@@ -33,11 +34,14 @@ namespace Order.API
 
             services.AddDbContext<OrderContext>(x =>
                 x.UseSqlServer(Configuration.GetConnectionString("OrderContext")));
-            
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Order.API", Version = "v1" });
             });
+
+            services.AddGraphQLServer()
+            .AddQueryType<QueryType>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +63,7 @@ namespace Order.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGraphQL();
             });
         }
     }

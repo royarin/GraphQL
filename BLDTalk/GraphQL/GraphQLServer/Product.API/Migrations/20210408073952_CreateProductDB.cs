@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Project.API.Migrations
+namespace Product.API.Migrations
 {
     public partial class CreateProductDB : Migration
     {

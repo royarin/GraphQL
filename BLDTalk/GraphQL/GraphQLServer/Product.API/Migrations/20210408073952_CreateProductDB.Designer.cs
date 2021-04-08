@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Product.API.Data;
 
-namespace Project.API.Migrations
+namespace Product.API.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    [Migration("20210407190742_CreateProductDB")]
+    [Migration("20210408073952_CreateProductDB")]
     partial class CreateProductDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,13 +20,11 @@ namespace Project.API.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Project.API.Models.Product", b =>
+            modelBuilder.Entity("Product.API.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Color")

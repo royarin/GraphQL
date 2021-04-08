@@ -13,10 +13,6 @@ namespace Product.API.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product.API.Models.Product>()
-                .Property(x => x.Id)
-                .UseIdentityColumn();
-            
-            modelBuilder.Entity<Product.API.Models.Product>()
                 .HasIndex(x => x.SKU)
                 .IsUnique();
         }

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Inventory.API.Data;
 using Microsoft.EntityFrameworkCore;
+using Inventory.API.GraphQL.SchemaTypes;
 
 namespace Inventory.API
 {
@@ -38,6 +39,9 @@ namespace Inventory.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Inventory.API", Version = "v1" });
             });
+
+            services.AddGraphQLServer()
+            .AddQueryType<QueryType>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +63,7 @@ namespace Inventory.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGraphQL();
             });
         }
     }

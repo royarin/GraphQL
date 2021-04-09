@@ -41,7 +41,8 @@ namespace Order.API
             });
 
             services.AddGraphQLServer()
-            .AddQueryType<QueryType>();
+            .AddQueryType<QueryType>()
+            .AddMutationType<MutationType>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

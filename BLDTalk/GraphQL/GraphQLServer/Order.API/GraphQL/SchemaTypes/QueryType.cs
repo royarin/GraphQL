@@ -8,7 +8,7 @@ namespace Order.API.GraphQL.SchemaTypes
         {
             descriptor.Name("Query");
             descriptor.Field(x=>x.GetOrders(default)).Type<ListType<OrderType>>();
-            descriptor.Field(x=>x.GetOrder(default!,default)).Type<OrderType>();
+            descriptor.Field(x=>x.GetOrder(default,default)).Type<OrderType>();
         }
     }
 }

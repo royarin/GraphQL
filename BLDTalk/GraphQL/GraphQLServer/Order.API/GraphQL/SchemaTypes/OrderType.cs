@@ -7,14 +7,14 @@ namespace Order.API.GraphQL.SchemaTypes
         protected override void Configure(IObjectTypeDescriptor<Models.Order> descriptor)
         {
             descriptor.Name("Order");
-            descriptor.Field(x=>x.OrderNumber).Type<NonNullType<UuidType>>();
-            descriptor.Field(x=>x.DeliveryName).Type<StringType>();
-            descriptor.Field(x=>x.DeliveryAddress1).Type<StringType>();
+            descriptor.Field(x=>x.OrderNumber).Type<NonNullType<IntType>>();
+            descriptor.Field(x=>x.DeliveryName).Type<NonNullType<StringType>>();
+            descriptor.Field(x=>x.DeliveryAddress1).Type<NonNullType<StringType>>();
             descriptor.Field(x=>x.DeliveryAddress2).Type<StringType>();
-            descriptor.Field(x=>x.DeliveryCity).Type<StringType>();
-            descriptor.Field(x=>x.DeliveryPostCode).Type<StringType>();
-            descriptor.Field(x=>x.DeliveryCountry).Type<StringType>();
-            descriptor.Field(x=>x.LineItems).Type<ListType<LineItemType>>();
+            descriptor.Field(x=>x.DeliveryCity).Type<NonNullType<StringType>>();
+            descriptor.Field(x=>x.DeliveryPostCode).Type<NonNullType<StringType>>();
+            descriptor.Field(x=>x.DeliveryCountry).Type<NonNullType<StringType>>();
+            descriptor.Field(x=>x.LineItems).Type<NonNullType<ListType<NonNullType<LineItemType>>>>();
         }
     }
 }

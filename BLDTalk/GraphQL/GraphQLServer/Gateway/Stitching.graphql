@@ -1,0 +1,7 @@
+extend type Product{
+    inventory: Inventory!
+        @delegate(
+            schema: "Inventory",
+            path: "inventory(sku : $fields:sku)"
+        )
+}

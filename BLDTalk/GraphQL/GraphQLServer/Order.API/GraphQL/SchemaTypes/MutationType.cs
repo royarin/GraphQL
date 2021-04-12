@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using Common.GraphQL.Extensions;
 using HotChocolate.Types;
+using Order.API.Data;
 
 namespace Order.API.GraphQL.SchemaTypes
 {
@@ -10,7 +12,8 @@ namespace Order.API.GraphQL.SchemaTypes
             descriptor.Name("Mutation");
             descriptor.Field(x => x.CreateOrder(default, default))
                 .Type<NonNullType<OrderType>>()
-                .Argument("createOrderInput", x => x.Type<NonNullType<CreateOrderInputType>>());
+                .Argument("createOrderInput", x => x.Type<NonNullType<CreateOrderInputType>>())
+                .UsePooledDbContext<OrderContext>();
         }
     }
 }

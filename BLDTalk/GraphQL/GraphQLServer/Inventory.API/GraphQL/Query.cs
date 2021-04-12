@@ -8,8 +8,9 @@ namespace Inventory.API.GraphQL
 {
     public class Query
     {
-        public async Task<Models.Inventory> GetInventory(string sku, [Service]InventoryContext context){
-            return await context.Inventory.Where(x=>x.SKU == sku).FirstOrDefaultAsync();
+        public async Task<Models.Inventory> GetInventory(string sku, [ScopedService] InventoryContext context)
+        {
+            return await context.Inventory.Where(x => x.SKU == sku).FirstOrDefaultAsync();
         }
     }
 }

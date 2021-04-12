@@ -32,7 +32,7 @@ namespace Inventory.API
 
             services.AddControllers();
 
-            services.AddDbContext<InventoryContext>(x =>
+            services.AddPooledDbContextFactory<InventoryContext>(x =>
                 x.UseSqlServer(Configuration.GetConnectionString("InventoryContext")));
             
             services.AddSwaggerGen(c =>

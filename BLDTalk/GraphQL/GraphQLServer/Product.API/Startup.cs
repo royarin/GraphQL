@@ -25,7 +25,7 @@ namespace Product.API
 
             services.AddControllers();
 
-            services.AddDbContext<ProductContext>(x =>
+            services.AddPooledDbContextFactory<ProductContext>(x =>
                 x.UseSqlServer(Configuration.GetConnectionString("ProductContext")));
             
             services.AddSwaggerGen(c =>

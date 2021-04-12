@@ -8,12 +8,12 @@ namespace Product.API.GraphQL
 {
     public class Query
     {
-        public async Task<IEnumerable<Models.Product>> GetProducts([Service] ProductContext context)
+        public async Task<IEnumerable<Models.Product>> GetProducts([ScopedService] ProductContext context)
         {
             return await context.Products.ToListAsync();
         }
 
-        public async Task<Models.Product> GetProduct(int id, [Service] ProductContext context)
+        public async Task<Models.Product> GetProduct(int id, [ScopedService] ProductContext context)
         {
             return await context.Products.FindAsync(id);
         }

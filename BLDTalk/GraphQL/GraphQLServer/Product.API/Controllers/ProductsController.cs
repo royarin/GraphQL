@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,31 +11,40 @@ namespace Product.API.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ProductContext _context;
-        public ProductsController(ProductContext context)
+        private readonly IDbContextFactory<ProductContext> _contextFactory;
+        public ProductsController(IDbContextFactory<ProductContext> contextFactory)
         {
-            _context = context;
+            _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
         }
 
         
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
-            return new OkObjectResult(await _context.Products.ToListAsync());
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return new OkObjectResult(await context.Products.ToListAsync());
+            }
         }
 
         
         [HttpGet("Products/Top/{first}")]
         public async Task<IActionResult> GetTopProducts(int first)
         {
-            return new OkObjectResult(await _context.Products.Take(first).ToListAsync());
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return new OkObjectResult(await context.Products.Take(first).ToListAsync());
+            }
         }
 
 
         [HttpGet("Products/{id}")]
         public async Task<IActionResult> GetProduct(int id)
         {
-            return new OkObjectResult(await _context.Products.FindAsync(id));
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return new OkObjectResult(await context.Products.FindAsync(id));
+            }
         }
     }
 }

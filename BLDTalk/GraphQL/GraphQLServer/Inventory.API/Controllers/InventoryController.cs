@@ -13,17 +13,21 @@ namespace Inventory.API.Controllers
     [ApiController]
     public class InventoryController : ControllerBase
     {
-        private readonly InventoryContext _context;
-        
-        public InventoryController(InventoryContext context)
+        private readonly IDbContextFactory<InventoryContext> _contextFactory;
+
+        public InventoryController(IDbContextFactory<InventoryContext> contextFactory)
         {
-            _context = context;
+            _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
         }
-        
+
         [HttpGet("sku")]
         public async Task<IActionResult> GetInventory(string sku)
         {
-            return new OkObjectResult(await _context.Inventory.Where(x=>x.SKU == sku).FirstOrDefaultAsync());
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return new OkObjectResult(
+                    await context.Inventory.Where(x => x.SKU == sku).FirstOrDefaultAsync());
+            }
         }
     }
 }

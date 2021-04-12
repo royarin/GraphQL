@@ -15,32 +15,42 @@ namespace Order.API.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        private readonly OrderContext _context;
+        private readonly IDbContextFactory<OrderContext> _contextFactory;
 
-        public OrderController(OrderContext context)
+        public OrderController(IDbContextFactory<OrderContext> contextFactory)
         {
-            _context = context;
+            _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
         }
 
         [HttpGet]
         public async Task<IActionResult> GetOrders()
         {
-            return new OkObjectResult(await _context.Orders.ToListAsync());
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return new OkObjectResult(await context.Orders.Include(x => x.LineItems).ToListAsync());
+            }
         }
 
         [HttpGet("{orderNumber}")]
         public async Task<IActionResult> GetOrder(int orderNumber)
         {
-            return new ObjectResult(await _context.Orders.Include(x=>x.LineItems).FirstOrDefaultAsync(x=>x.OrderNumber == orderNumber));
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return new ObjectResult(await context.Orders.Include(x => x.LineItems)
+                    .FirstOrDefaultAsync(x => x.OrderNumber == orderNumber));
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] Models.Order newOrder)
         {
-            await _context.Orders.AddAsync(newOrder);
-            await _context.SaveChangesAsync();
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                await context.Orders.AddAsync(newOrder);
+                await context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetOrder), new { orderNumber = newOrder.OrderNumber }, newOrder);
+                return CreatedAtAction(nameof(GetOrder), new {orderNumber = newOrder.OrderNumber}, newOrder);
+            }
         }
     }
 }

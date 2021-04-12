@@ -32,7 +32,7 @@ namespace Order.API
 
             services.AddControllers();
 
-            services.AddDbContext<OrderContext>(x =>
+            services.AddPooledDbContextFactory<OrderContext>(x =>
                 x.UseSqlServer(Configuration.GetConnectionString("OrderContext")));
 
             services.AddSwaggerGen(c =>

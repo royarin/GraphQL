@@ -1,0 +1,37 @@
+﻿
+
+@if (Instance.OrderNumber == 0)
+{
+
+}
+else
+{
+    <h3>@Instance.OrderNumber</h3>
+}
+<table>
+    <tr>
+        <td><label>Delivery Name</label></td>
+        <td><input type="text" @bind-value="Instance.DeliveryName"/></td>
+    </tr>
+    <tr>
+        <td><label>Delivery Address1</label></td>
+        <td><input type="text" @bind-value="Instance.DeliveryAddress1" /></td>
+    </tr>
+    <tr>
+        <td><label>Delivery Address2</label></td>
+        <td><input type="text" @bind-value="Instance.DeliveryAddress2" /></td>
+    </tr>
+    <tr>
+        <td><label>Delivery Postcode</label></td>
+        <td><input type="text" @bind-value="Instance.DeliveryPostCode" /></td>
+    </tr>
+    <tr>
+        <td><label>Delivery City</label></td>
+        <td><input type="text" @bind-value="Instance.DeliveryCity" /></td>
+    </tr>
+    <tr>
+        <td><label>Delivery Country</label></td>
+        <td><input type="text" @bind-value="Instance.DeliveryCountry" /></td>
+    </tr>
+
+</table>

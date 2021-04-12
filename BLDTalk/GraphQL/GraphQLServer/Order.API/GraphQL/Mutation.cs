@@ -8,7 +8,7 @@ namespace Order.API.GraphQL
 {
     public class Mutation
     {
-        public async Task<Models.Order> CreateOrder(CreateOrderInput createOrderInput, [Service] OrderContext context){
+        public async Task<Models.Order> CreateOrder(CreateOrderInput createOrderInput, [ScopedService] OrderContext context){
             var newOrder=createOrderInput.Adapt<Models.Order>();
 
             await context.Orders.AddAsync(newOrder);

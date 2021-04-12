@@ -20,6 +20,22 @@ fragment orderFields on Order
     deliveryAddress1
 }
 
+query getProducts {
+  products {
+    name
+    sku
+    description
+    color
+    size
+    price
+    image
+    inventory {
+      stock
+    }
+  }
+}
+
+
 mutation addOrder ($input: CreateOrderInput!)
 {
   createOrder(createOrderInput: $input)

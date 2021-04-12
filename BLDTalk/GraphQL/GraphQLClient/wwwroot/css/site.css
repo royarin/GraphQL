@@ -48,3 +48,28 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+/*
+.card {
+    border: thick;
+    border-radius: 20px;
+    background-color: #fff
+}*/
+
+.text1 {
+    font-size: 13px;
+    color: #cbcbcb
+}
+
+.info {
+    line-height: 17px
+}
+
+.cost span {
+    color: #fb3531;
+    font-weight: bold;
+    font-size: 20px
+}
+
+.star {
+    color: #FBC02D
+}

@@ -37,14 +37,7 @@ namespace BlazorGQL.Pages.Order
             _modalShow = false;
             if (result)
             {
-                try
-                {
-                    await OrderService.SaveOrder(_currentOrder);
-                }
-                catch (Exception ex)
-                {
-
-                }
+                await OrderService.SaveOrder(_currentOrder);
                 await UpdateList();
             }
         }

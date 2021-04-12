@@ -1,0 +1,30 @@
+﻿
+query getOrders {
+  orders {
+   ...orderFields
+  }
+}
+
+
+query getOrder($orderNumber: Int!)  {
+  order (orderNumber: $orderNumber) {
+    ...orderFields
+  }
+}
+
+
+fragment orderFields on Order
+{
+    orderNumber
+    deliveryName
+    deliveryAddress1
+}
+
+mutation addOrder ($input: CreateOrderInput!)
+{
+  createOrder(createOrderInput: $input)
+  {
+    orderNumber
+    deliveryName
+  }
+}

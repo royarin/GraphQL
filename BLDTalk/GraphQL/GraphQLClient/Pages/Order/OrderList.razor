@@ -1,0 +1,38 @@
+@namespace BlazorGQL.Pages.Order
+@page "/"
+
+
+<h1><span class="oi oi-cart"></span> Orders</h1>
+
+<div>
+    <button type="button" class="btn btn-primary" @onclick="NewOrder">New Order</button>
+</div>
+
+<ModalComponent 
+                ShowModal="_modalShow" 
+                OnResultCallback="SaveOrder" Title="New Order">
+    <ItemTemplate>
+        <OrderDetail Instance="_currentOrder"></OrderDetail>
+    </ItemTemplate>
+</ModalComponent>
+
+<div>
+    @if (_orders == null)
+    {
+        <h3>Loading Orders...</h3>
+    }
+    else
+    {
+        <TableComponent Items="_orders" Context="order">
+            <TableHeader>
+                <th>OrderNumber</th>
+                <th>DeliveryName</th>
+            </TableHeader>
+            <RowTemplate>
+                <td>@order.OrderNumber</td>
+                <td>@order.DeliveryName</td>
+            </RowTemplate>
+        </TableComponent>
+    }
+</div>
+

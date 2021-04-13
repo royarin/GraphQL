@@ -7,5 +7,7 @@ namespace BlazorGQL.Pages.Product
     {
         [Parameter]
         public ProductModel Product { get; set; }
+
+        private int _stockThresHold = 100;
     }
 }

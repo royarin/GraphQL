@@ -11,7 +11,7 @@ namespace Order.API.GraphQL.SchemaTypes
             descriptor.Name("Query");
             descriptor.Field(x => x.GetOrders(default)).Type<ListType<OrderType>>().UsePooledDbContext<OrderContext>();
             descriptor.Field(x => x.GetOrder(default, default))
-                .Argument("orderNumber",x=>x.Type<NonNullType<IntType>>()).Type<OrderType>()
+                .Argument("orderNumber",x=>x.Type<NonNullType<IdType>>()).Type<OrderType>()
                 .UsePooledDbContext<OrderContext>();
         }
     }

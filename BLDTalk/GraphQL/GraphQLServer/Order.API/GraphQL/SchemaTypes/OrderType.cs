@@ -7,7 +7,7 @@ namespace Order.API.GraphQL.SchemaTypes
         protected override void Configure(IObjectTypeDescriptor<Models.Order> descriptor)
         {
             descriptor.Name("Order");
-            descriptor.Field(x=>x.OrderNumber).Type<NonNullType<IntType>>();
+            descriptor.Field(x=>x.OrderNumber).Type<NonNullType<IdType>>();
             descriptor.Field(x=>x.DeliveryName).Type<NonNullType<StringType>>();
             descriptor.Field(x=>x.DeliveryAddress1).Type<NonNullType<StringType>>();
             descriptor.Field(x=>x.DeliveryAddress2).Type<StringType>();

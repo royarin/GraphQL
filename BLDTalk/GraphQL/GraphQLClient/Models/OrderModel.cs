@@ -8,7 +8,7 @@ namespace BlazorGQL.Model
     /// </summary>
     public class OrderModel
     {
-        public int OrderNumber { get; set; }
+        public string OrderNumber { get; set; }
         [Required]
         public string DeliveryName { get; set; }
         [Required]

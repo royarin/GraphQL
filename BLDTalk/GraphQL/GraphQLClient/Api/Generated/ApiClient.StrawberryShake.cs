@@ -31,7 +31,7 @@ namespace BlazorGQL.Api.State
     {
         public ProductEntity(
             global::System.String name,
-            global::System.String sku,
+            global::System.String? sku,
             global::System.String description,
             global::System.String color,
             global::System.String size,
@@ -51,7 +51,7 @@ namespace BlazorGQL.Api.State
 
         public global::System.String Name { get; }
 
-        public global::System.String Sku { get; }
+        public global::System.String? Sku { get; }
 
         public global::System.String Description { get; }
 
@@ -375,7 +375,7 @@ namespace BlazorGQL.Api
         , IGetOrders_Orders_Order
     {
         public GetOrders_Orders_Order(
-            global::System.Int32 orderNumber,
+            global::System.String orderNumber,
             global::System.String deliveryName,
             global::System.String deliveryAddress1,
             global::System.String? deliveryAddress2,
@@ -394,7 +394,7 @@ namespace BlazorGQL.Api
             LineItems = lineItems;
         }
 
-        public global::System.Int32 OrderNumber { get; }
+        public global::System.String OrderNumber { get; }
 
         public global::System.String DeliveryName { get; }
 
@@ -455,7 +455,7 @@ namespace BlazorGQL.Api
                 return false;
             }
 
-            return (OrderNumber == other.OrderNumber)
+            return (OrderNumber.Equals(other.OrderNumber))
                 && DeliveryName.Equals(other.DeliveryName)
                 && DeliveryAddress1.Equals(other.DeliveryAddress1)
                 && ((DeliveryAddress2 is null && other.DeliveryAddress2 is null) ||DeliveryAddress2 != null && DeliveryAddress2.Equals(other.DeliveryAddress2))
@@ -645,7 +645,7 @@ namespace BlazorGQL.Api
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
     public interface IOrderFields
     {
-        public global::System.Int32 OrderNumber { get; }
+        public global::System.String OrderNumber { get; }
 
         public global::System.String DeliveryName { get; }
 
@@ -713,582 +713,6 @@ namespace BlazorGQL.Api
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
     public interface IGetOrders_Orders_LineItems_LineItem
         : IGetOrders_Orders_LineItems
-    {
-    }
-}
-
-
-// GetOrderResultFactory.cs
-#nullable enable
-
-namespace BlazorGQL.Api.State
-{
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
-    public partial class GetOrderResultFactory
-        : global::StrawberryShake.IOperationResultDataFactory<global::BlazorGQL.Api.GetOrderResult>
-    {
-        private readonly global::StrawberryShake.IEntityStore _entityStore;
-        private readonly global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.LineItemEntity, GetOrders_Orders_LineItems_LineItem> _getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper;
-
-        public GetOrderResultFactory(
-            global::StrawberryShake.IEntityStore entityStore,
-            global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.LineItemEntity, GetOrders_Orders_LineItems_LineItem> getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper)
-        {
-            _entityStore = entityStore
-                 ?? throw new global::System.ArgumentNullException(nameof(entityStore));
-            _getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper = getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper
-                 ?? throw new global::System.ArgumentNullException(nameof(getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper));
-        }
-
-        global::System.Type global::StrawberryShake.IOperationResultDataFactory.ResultType => typeof(global::BlazorGQL.Api.IGetOrderResult);
-
-        public GetOrderResult Create(
-            global::StrawberryShake.IOperationResultDataInfo dataInfo,
-            global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
-        {
-            if (snapshot is null)
-            {
-                snapshot = _entityStore.CurrentSnapshot;
-            }
-
-            if (dataInfo is GetOrderResultInfo info)
-            {
-                return new GetOrderResult(MapIGetOrder_Order(
-                    info.Order,
-                    snapshot));
-            }
-
-            throw new global::System.ArgumentException("GetOrderResultInfo expected.");
-        }
-
-        private global::BlazorGQL.Api.IGetOrder_Order? MapIGetOrder_Order(
-            global::BlazorGQL.Api.State.OrderData? data,
-            global::StrawberryShake.IEntityStoreSnapshot snapshot)
-        {
-            if (data is null)
-            {
-                return null;
-            }
-
-            IGetOrder_Order returnValue = default!;
-
-            if (data?.__typename.Equals(
-                    "Order",
-                    global::System.StringComparison.Ordinal) ?? false)
-            {
-                returnValue = new GetOrder_Order_Order(
-                    data.OrderNumber ?? throw new global::System.ArgumentNullException(),
-                    data.DeliveryName ?? throw new global::System.ArgumentNullException(),
-                    data.DeliveryAddress1 ?? throw new global::System.ArgumentNullException(),
-                    data.DeliveryAddress2,
-                    data.DeliveryPostCode ?? throw new global::System.ArgumentNullException(),
-                    data.DeliveryCity ?? throw new global::System.ArgumentNullException(),
-                    data.DeliveryCountry ?? throw new global::System.ArgumentNullException(),
-                    MapNonNullableIGetOrders_Orders_LineItemsNonNullableArray(
-                        data.LineItems ?? throw new global::System.ArgumentNullException(),
-                        snapshot));
-            }
-            else
-            {
-                throw new global::System.NotSupportedException();
-            }
-            return returnValue;
-        }
-
-        private global::System.Collections.Generic.IReadOnlyList<global::BlazorGQL.Api.IGetOrders_Orders_LineItems> MapNonNullableIGetOrders_Orders_LineItemsNonNullableArray(
-            global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId>? list,
-            global::StrawberryShake.IEntityStoreSnapshot snapshot)
-        {
-            if (list is null)
-            {
-                throw new global::System.ArgumentNullException();
-            }
-
-            var lineItems = new global::System.Collections.Generic.List<global::BlazorGQL.Api.IGetOrders_Orders_LineItems>();
-
-            foreach (global::StrawberryShake.EntityId child in list)
-            {
-                lineItems.Add(MapNonNullableIGetOrders_Orders_LineItems(
-                    child,
-                    snapshot));
-            }
-
-            return lineItems;
-        }
-
-        private global::BlazorGQL.Api.IGetOrders_Orders_LineItems MapNonNullableIGetOrders_Orders_LineItems(
-            global::StrawberryShake.EntityId entityId,
-            global::StrawberryShake.IEntityStoreSnapshot snapshot)
-        {
-
-            if (entityId.Name.Equals(
-                    "LineItem",
-                    global::System.StringComparison.Ordinal))
-            {
-                return _getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper.Map(
-                    snapshot.GetEntity<global::BlazorGQL.Api.State.LineItemEntity>(entityId)
-                        ?? throw new global::StrawberryShake.GraphQLClientException());
-            }
-            throw new global::System.NotSupportedException();
-        }
-
-        global::System.Object global::StrawberryShake.IOperationResultDataFactory.Create(
-            global::StrawberryShake.IOperationResultDataInfo dataInfo,
-            global::StrawberryShake.IEntityStoreSnapshot? snapshot)
-        {
-            return Create(
-                dataInfo,
-                snapshot);
-        }
-    }
-}
-
-
-// GetOrderResultInfo.cs
-#nullable enable
-
-namespace BlazorGQL.Api.State
-{
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
-    public partial class GetOrderResultInfo
-        : global::StrawberryShake.IOperationResultDataInfo
-    {
-        private readonly global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> _entityIds;
-        private readonly global::System.UInt64 _version;
-
-        public GetOrderResultInfo(
-            global::BlazorGQL.Api.State.OrderData? order,
-            global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> entityIds,
-            global::System.UInt64 version)
-        {
-            Order = order;
-            _entityIds = entityIds
-                 ?? throw new global::System.ArgumentNullException(nameof(entityIds));
-            _version = version;
-        }
-
-        public global::BlazorGQL.Api.State.OrderData? Order { get; }
-
-        public global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> EntityIds => _entityIds;
-
-        public global::System.UInt64 Version => _version;
-
-        public global::StrawberryShake.IOperationResultDataInfo WithVersion(global::System.UInt64 version)
-        {
-            return new GetOrderResultInfo(
-                Order,
-                _entityIds,
-                version);
-        }
-    }
-}
-
-
-// GetOrderResult.cs
-#nullable enable
-
-namespace BlazorGQL.Api
-{
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
-    public partial class GetOrderResult
-        : global::System.IEquatable<GetOrderResult>
-        , IGetOrderResult
-    {
-        public GetOrderResult(global::BlazorGQL.Api.IGetOrder_Order? order)
-        {
-            Order = order;
-        }
-
-        public global::BlazorGQL.Api.IGetOrder_Order? Order { get; }
-
-        public override global::System.Boolean Equals(global::System.Object? obj)
-        {
-            if (ReferenceEquals(
-                    null,
-                    obj))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(
-                    this,
-                    obj))
-            {
-                return true;
-            }
-
-            if (obj.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return Equals((GetOrderResult)obj);
-        }
-
-        public global::System.Boolean Equals(GetOrderResult? other)
-        {
-            if (ReferenceEquals(
-                    null,
-                    other))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(
-                    this,
-                    other))
-            {
-                return true;
-            }
-
-            if (other.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return (((Order is null && other.Order is null) ||Order != null && Order.Equals(other.Order)));
-        }
-
-        public override global::System.Int32 GetHashCode()
-        {
-            unchecked
-            {
-                int hash = 5;
-
-                if (!(Order is null))
-                {
-                    hash ^= 397 * Order.GetHashCode();
-                }
-
-                return hash;
-            }
-        }
-    }
-}
-
-
-// GetOrder_Order_Order.cs
-#nullable enable
-
-namespace BlazorGQL.Api
-{
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
-    public partial class GetOrder_Order_Order
-        : global::System.IEquatable<GetOrder_Order_Order>
-        , IGetOrder_Order_Order
-    {
-        public GetOrder_Order_Order(
-            global::System.Int32 orderNumber,
-            global::System.String deliveryName,
-            global::System.String deliveryAddress1,
-            global::System.String? deliveryAddress2,
-            global::System.String deliveryPostCode,
-            global::System.String deliveryCity,
-            global::System.String deliveryCountry,
-            global::System.Collections.Generic.IReadOnlyList<global::BlazorGQL.Api.IGetOrders_Orders_LineItems> lineItems)
-        {
-            OrderNumber = orderNumber;
-            DeliveryName = deliveryName;
-            DeliveryAddress1 = deliveryAddress1;
-            DeliveryAddress2 = deliveryAddress2;
-            DeliveryPostCode = deliveryPostCode;
-            DeliveryCity = deliveryCity;
-            DeliveryCountry = deliveryCountry;
-            LineItems = lineItems;
-        }
-
-        public global::System.Int32 OrderNumber { get; }
-
-        public global::System.String DeliveryName { get; }
-
-        public global::System.String DeliveryAddress1 { get; }
-
-        public global::System.String? DeliveryAddress2 { get; }
-
-        public global::System.String DeliveryPostCode { get; }
-
-        public global::System.String DeliveryCity { get; }
-
-        public global::System.String DeliveryCountry { get; }
-
-        public global::System.Collections.Generic.IReadOnlyList<global::BlazorGQL.Api.IGetOrders_Orders_LineItems> LineItems { get; }
-
-        public override global::System.Boolean Equals(global::System.Object? obj)
-        {
-            if (ReferenceEquals(
-                    null,
-                    obj))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(
-                    this,
-                    obj))
-            {
-                return true;
-            }
-
-            if (obj.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return Equals((GetOrder_Order_Order)obj);
-        }
-
-        public global::System.Boolean Equals(GetOrder_Order_Order? other)
-        {
-            if (ReferenceEquals(
-                    null,
-                    other))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(
-                    this,
-                    other))
-            {
-                return true;
-            }
-
-            if (other.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return (OrderNumber == other.OrderNumber)
-                && DeliveryName.Equals(other.DeliveryName)
-                && DeliveryAddress1.Equals(other.DeliveryAddress1)
-                && ((DeliveryAddress2 is null && other.DeliveryAddress2 is null) ||DeliveryAddress2 != null && DeliveryAddress2.Equals(other.DeliveryAddress2))
-                && DeliveryPostCode.Equals(other.DeliveryPostCode)
-                && DeliveryCity.Equals(other.DeliveryCity)
-                && DeliveryCountry.Equals(other.DeliveryCountry)
-                && global::StrawberryShake.Helper.ComparisonHelper.SequenceEqual(
-                        LineItems,
-                        other.LineItems);
-        }
-
-        public override global::System.Int32 GetHashCode()
-        {
-            unchecked
-            {
-                int hash = 5;
-
-                hash ^= 397 * OrderNumber.GetHashCode();
-
-                hash ^= 397 * DeliveryName.GetHashCode();
-
-                hash ^= 397 * DeliveryAddress1.GetHashCode();
-
-                if (!(DeliveryAddress2 is null))
-                {
-                    hash ^= 397 * DeliveryAddress2.GetHashCode();
-                }
-
-                hash ^= 397 * DeliveryPostCode.GetHashCode();
-
-                hash ^= 397 * DeliveryCity.GetHashCode();
-
-                hash ^= 397 * DeliveryCountry.GetHashCode();
-
-                foreach (var LineItems_elm in LineItems)
-                {
-                    hash ^= 397 * LineItems_elm.GetHashCode();
-                }
-
-                return hash;
-            }
-        }
-    }
-}
-
-
-// GetOrder_Order_LineItems_LineItemFromLineItemEntityMapper.cs
-#nullable enable
-
-namespace BlazorGQL.Api.State
-{
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
-    public partial class GetOrder_Order_LineItems_LineItemFromLineItemEntityMapper
-        : global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.LineItemEntity, GetOrder_Order_LineItems_LineItem>
-    {
-        private readonly global::StrawberryShake.IEntityStore _entityStore;
-
-        public GetOrder_Order_LineItems_LineItemFromLineItemEntityMapper(global::StrawberryShake.IEntityStore entityStore)
-        {
-            _entityStore = entityStore
-                 ?? throw new global::System.ArgumentNullException(nameof(entityStore));
-        }
-
-        public GetOrder_Order_LineItems_LineItem Map(
-            global::BlazorGQL.Api.State.LineItemEntity entity,
-            global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
-        {
-            if (snapshot is null)
-            {
-                snapshot = _entityStore.CurrentSnapshot;
-            }
-
-            return new GetOrder_Order_LineItems_LineItem(
-                entity.Sku,
-                entity.Quantity);
-        }
-    }
-}
-
-
-// GetOrder_Order_LineItems_LineItem.cs
-#nullable enable
-
-namespace BlazorGQL.Api
-{
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
-    public partial class GetOrder_Order_LineItems_LineItem
-        : global::System.IEquatable<GetOrder_Order_LineItems_LineItem>
-        , IGetOrder_Order_LineItems_LineItem
-    {
-        public GetOrder_Order_LineItems_LineItem(
-            global::System.String sku,
-            global::System.Int32 quantity)
-        {
-            Sku = sku;
-            Quantity = quantity;
-        }
-
-        public global::System.String Sku { get; }
-
-        public global::System.Int32 Quantity { get; }
-
-        public override global::System.Boolean Equals(global::System.Object? obj)
-        {
-            if (ReferenceEquals(
-                    null,
-                    obj))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(
-                    this,
-                    obj))
-            {
-                return true;
-            }
-
-            if (obj.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return Equals((GetOrder_Order_LineItems_LineItem)obj);
-        }
-
-        public global::System.Boolean Equals(GetOrder_Order_LineItems_LineItem? other)
-        {
-            if (ReferenceEquals(
-                    null,
-                    other))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(
-                    this,
-                    other))
-            {
-                return true;
-            }
-
-            if (other.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return (Sku.Equals(other.Sku))
-                && Quantity == other.Quantity;
-        }
-
-        public override global::System.Int32 GetHashCode()
-        {
-            unchecked
-            {
-                int hash = 5;
-
-                hash ^= 397 * Sku.GetHashCode();
-
-                hash ^= 397 * Quantity.GetHashCode();
-
-                return hash;
-            }
-        }
-    }
-}
-
-
-// IGetOrderResult.cs
-#nullable enable
-
-namespace BlazorGQL.Api
-{
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
-    public interface IGetOrderResult
-    {
-        public global::BlazorGQL.Api.IGetOrder_Order? Order { get; }
-    }
-}
-
-
-// IGetOrder_Order.cs
-#nullable enable
-
-namespace BlazorGQL.Api
-{
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
-    public interface IGetOrder_Order
-        : IOrderFields
-    {
-    }
-}
-
-
-// IGetOrder_Order_Order.cs
-#nullable enable
-
-namespace BlazorGQL.Api
-{
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
-    public interface IGetOrder_Order_Order
-        : IGetOrder_Order
-    {
-    }
-}
-
-
-// IGetOrder_Order_LineItems.cs
-#nullable enable
-
-namespace BlazorGQL.Api
-{
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
-    public interface IGetOrder_Order_LineItems
-    {
-        public global::System.String Sku { get; }
-
-        public global::System.Int32 Quantity { get; }
-    }
-}
-
-
-// IGetOrder_Order_LineItems_LineItem.cs
-#nullable enable
-
-namespace BlazorGQL.Api
-{
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
-    public interface IGetOrder_Order_LineItems_LineItem
-        : IGetOrder_Order_LineItems
     {
     }
 }
@@ -1597,7 +1021,7 @@ namespace BlazorGQL.Api
     {
         public GetProducts_Products_Product(
             global::System.String name,
-            global::System.String sku,
+            global::System.String? sku,
             global::System.String description,
             global::System.String color,
             global::System.String size,
@@ -1617,7 +1041,7 @@ namespace BlazorGQL.Api
 
         public global::System.String Name { get; }
 
-        public global::System.String Sku { get; }
+        public global::System.String? Sku { get; }
 
         public global::System.String Description { get; }
 
@@ -1677,7 +1101,7 @@ namespace BlazorGQL.Api
             }
 
             return (Name.Equals(other.Name))
-                && Sku.Equals(other.Sku)
+                && ((Sku is null && other.Sku is null) ||Sku != null && Sku.Equals(other.Sku))
                 && Description.Equals(other.Description)
                 && Color.Equals(other.Color)
                 && Size.Equals(other.Size)
@@ -1694,7 +1118,10 @@ namespace BlazorGQL.Api
 
                 hash ^= 397 * Name.GetHashCode();
 
-                hash ^= 397 * Sku.GetHashCode();
+                if (!(Sku is null))
+                {
+                    hash ^= 397 * Sku.GetHashCode();
+                }
 
                 hash ^= 397 * Description.GetHashCode();
 
@@ -1850,7 +1277,7 @@ namespace BlazorGQL.Api
     {
         public global::System.String Name { get; }
 
-        public global::System.String Sku { get; }
+        public global::System.String? Sku { get; }
 
         public global::System.String Description { get; }
 
@@ -2108,14 +1535,14 @@ namespace BlazorGQL.Api
         , IAddOrder_CreateOrder_Order
     {
         public AddOrder_CreateOrder_Order(
-            global::System.Int32 orderNumber,
+            global::System.String orderNumber,
             global::System.String deliveryName)
         {
             OrderNumber = orderNumber;
             DeliveryName = deliveryName;
         }
 
-        public global::System.Int32 OrderNumber { get; }
+        public global::System.String OrderNumber { get; }
 
         public global::System.String DeliveryName { get; }
 
@@ -2164,7 +1591,7 @@ namespace BlazorGQL.Api
                 return false;
             }
 
-            return (OrderNumber == other.OrderNumber)
+            return (OrderNumber.Equals(other.OrderNumber))
                 && DeliveryName.Equals(other.DeliveryName);
         }
 
@@ -2206,7 +1633,7 @@ namespace BlazorGQL.Api
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
     public interface IAddOrder_CreateOrder
     {
-        public global::System.Int32 OrderNumber { get; }
+        public global::System.String OrderNumber { get; }
 
         public global::System.String DeliveryName { get; }
     }
@@ -2667,227 +2094,6 @@ namespace BlazorGQL.Api
 }
 
 
-// GetOrderQueryDocument.cs
-#nullable enable
-
-namespace BlazorGQL.Api
-{
-    /// <summary>
-    /// Represents the operation service of the GetOrder GraphQL operation
-    /// <code>
-    /// query GetOrder($orderNumber: Int!) {
-    ///   order(orderNumber: $orderNumber) {
-    ///     __typename
-    ///     ... orderFields
-    ///   }
-    /// }
-    /// 
-    /// fragment orderFields on Order {
-    ///   orderNumber
-    ///   deliveryName
-    ///   deliveryAddress1
-    ///   deliveryAddress2
-    ///   deliveryPostCode
-    ///   deliveryCity
-    ///   deliveryCountry
-    ///   lineItems {
-    ///     __typename
-    ///     sku
-    ///     quantity
-    ///     ... on LineItem {
-    ///       id
-    ///     }
-    ///   }
-    /// }
-    /// </code>
-    /// </summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
-    public partial class GetOrderQueryDocument
-        : global::StrawberryShake.IDocument
-    {
-        private GetOrderQueryDocument()
-        {
-        }
-
-        public static GetOrderQueryDocument Instance { get; } = new GetOrderQueryDocument();
-
-        public global::StrawberryShake.OperationKind Kind => global::StrawberryShake.OperationKind.Query;
-
-        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]{ 0x71, 0x75, 0x65, 0x72, 0x79, 0x20, 0x47, 0x65, 0x74, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x28, 0x24, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x3a, 0x20, 0x49, 0x6e, 0x74, 0x21, 0x29, 0x20, 0x7b, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x28, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x3a, 0x20, 0x24, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x29, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x66, 0x72, 0x61, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x20, 0x6f, 0x6e, 0x20, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x20, 0x7b, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x31, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x32, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x50, 0x6f, 0x73, 0x74, 0x43, 0x6f, 0x64, 0x65, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x43, 0x69, 0x74, 0x79, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x20, 0x6c, 0x69, 0x6e, 0x65, 0x49, 0x74, 0x65, 0x6d, 0x73, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x73, 0x6b, 0x75, 0x20, 0x71, 0x75, 0x61, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x6f, 0x6e, 0x20, 0x4c, 0x69, 0x6e, 0x65, 0x49, 0x74, 0x65, 0x6d, 0x20, 0x7b, 0x20, 0x69, 0x64, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x7d };
-
-        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("sha1Hash", "bb3f0446c3b4f79672d5cecaa33c6e4e0ddbc188");
-
-        public override global::System.String ToString()
-        {
-            #if NETSTANDARD2_0
-            return global::System.Text.Encoding.UTF8.GetString(Body.ToArray());
-            #else
-            return global::System.Text.Encoding.UTF8.GetString(Body);
-            #endif
-        }
-    }
-}
-
-
-// GetOrderQuery.cs
-#nullable enable
-
-namespace BlazorGQL.Api
-{
-    /// <summary>
-    /// Represents the operation service of the GetOrder GraphQL operation
-    /// <code>
-    /// query GetOrder($orderNumber: Int!) {
-    ///   order(orderNumber: $orderNumber) {
-    ///     __typename
-    ///     ... orderFields
-    ///   }
-    /// }
-    /// 
-    /// fragment orderFields on Order {
-    ///   orderNumber
-    ///   deliveryName
-    ///   deliveryAddress1
-    ///   deliveryAddress2
-    ///   deliveryPostCode
-    ///   deliveryCity
-    ///   deliveryCountry
-    ///   lineItems {
-    ///     __typename
-    ///     sku
-    ///     quantity
-    ///     ... on LineItem {
-    ///       id
-    ///     }
-    ///   }
-    /// }
-    /// </code>
-    /// </summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
-    public partial class GetOrderQuery
-        : global::BlazorGQL.Api.IGetOrderQuery
-    {
-        private readonly global::StrawberryShake.IOperationExecutor<IGetOrderResult> _operationExecutor;
-        private readonly global::StrawberryShake.Serialization.IInputValueFormatter _intFormatter;
-
-        public GetOrderQuery(
-            global::StrawberryShake.IOperationExecutor<IGetOrderResult> operationExecutor,
-            global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
-        {
-            _operationExecutor = operationExecutor
-                 ?? throw new global::System.ArgumentNullException(nameof(operationExecutor));
-            _intFormatter = serializerResolver.GetInputValueFormatter("Int");
-        }
-
-        global::System.Type global::StrawberryShake.IOperationRequestFactory.ResultType => typeof(IGetOrderResult);
-
-        public async global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetOrderResult>> ExecuteAsync(
-            global::System.Int32 orderNumber,
-            global::System.Threading.CancellationToken cancellationToken = default)
-        {
-            var request = CreateRequest(orderNumber);
-
-            return await _operationExecutor
-                .ExecuteAsync(
-                    request,
-                    cancellationToken)
-                .ConfigureAwait(false);
-        }
-
-        public global::System.IObservable<global::StrawberryShake.IOperationResult<IGetOrderResult>> Watch(
-            global::System.Int32 orderNumber,
-            global::StrawberryShake.ExecutionStrategy? strategy = null)
-        {
-            var request = CreateRequest(orderNumber);
-            return _operationExecutor.Watch(
-                request,
-                strategy);
-        }
-
-        private global::StrawberryShake.OperationRequest CreateRequest(global::System.Int32 orderNumber)
-        {
-            var variables = new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>();
-
-            variables.Add(
-                "orderNumber",
-                FormatOrderNumber(orderNumber));
-
-            return CreateRequest(variables);
-        }
-
-        private global::StrawberryShake.OperationRequest CreateRequest(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
-        {
-
-            return new global::StrawberryShake.OperationRequest(
-                id: GetOrderQueryDocument.Instance.Hash.Value,
-                name: "GetOrder",
-                document: GetOrderQueryDocument.Instance,
-                strategy: global::StrawberryShake.RequestStrategy.Default,
-                variables:variables);
-        }
-
-        private global::System.Object? FormatOrderNumber(global::System.Int32 value)
-        {
-            return _intFormatter.Format(value);
-        }
-
-        global::StrawberryShake.OperationRequest global::StrawberryShake.IOperationRequestFactory.Create(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
-        {
-            return CreateRequest(variables!);
-        }
-    }
-}
-
-
-// IGetOrderQuery.cs
-#nullable enable
-
-namespace BlazorGQL.Api
-{
-    /// <summary>
-    /// Represents the operation service of the GetOrder GraphQL operation
-    /// <code>
-    /// query GetOrder($orderNumber: Int!) {
-    ///   order(orderNumber: $orderNumber) {
-    ///     __typename
-    ///     ... orderFields
-    ///   }
-    /// }
-    /// 
-    /// fragment orderFields on Order {
-    ///   orderNumber
-    ///   deliveryName
-    ///   deliveryAddress1
-    ///   deliveryAddress2
-    ///   deliveryPostCode
-    ///   deliveryCity
-    ///   deliveryCountry
-    ///   lineItems {
-    ///     __typename
-    ///     sku
-    ///     quantity
-    ///     ... on LineItem {
-    ///       id
-    ///     }
-    ///   }
-    /// }
-    /// </code>
-    /// </summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
-    public interface IGetOrderQuery
-        : global::StrawberryShake.IOperationRequestFactory
-    {
-        global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetOrderResult>> ExecuteAsync(
-            global::System.Int32 orderNumber,
-            global::System.Threading.CancellationToken cancellationToken = default);
-
-        global::System.IObservable<global::StrawberryShake.IOperationResult<IGetOrderResult>> Watch(
-            global::System.Int32 orderNumber,
-            global::StrawberryShake.ExecutionStrategy? strategy = null);
-    }
-}
-
-
 // GetProductsQueryDocument.cs
 #nullable enable
 
@@ -3267,8 +2473,9 @@ namespace BlazorGQL.Api.State
         private readonly global::StrawberryShake.IEntityStore _entityStore;
         private readonly global::StrawberryShake.IEntityIdSerializer _idSerializer;
         private readonly global::StrawberryShake.IOperationResultDataFactory<global::BlazorGQL.Api.IGetOrdersResult> _resultDataFactory;
-        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Int32, global::System.Int32> _intParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _iDParser;
         private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _stringParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Int32, global::System.Int32> _intParser;
 
         public GetOrdersBuilder(
             global::StrawberryShake.IEntityStore entityStore,
@@ -3282,10 +2489,12 @@ namespace BlazorGQL.Api.State
                  ?? throw new global::System.ArgumentNullException(nameof(idSerializer));
             _resultDataFactory = resultDataFactory
                  ?? throw new global::System.ArgumentNullException(nameof(resultDataFactory));
-            _intParser = serializerResolver.GetLeafValueParser<global::System.Int32, global::System.Int32>("Int")
-                 ?? throw new global::System.ArgumentException("No serializer for type `Int` found.");
+            _iDParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("ID")
+                 ?? throw new global::System.ArgumentException("No serializer for type `ID` found.");
             _stringParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("String")
                  ?? throw new global::System.ArgumentException("No serializer for type `String` found.");
+            _intParser = serializerResolver.GetLeafValueParser<global::System.Int32, global::System.Int32>("Int")
+                 ?? throw new global::System.ArgumentException("No serializer for type `Int` found.");
         }
 
         public global::StrawberryShake.IOperationResult<IGetOrdersResult> Build(global::StrawberryShake.Response<global::System.Text.Json.JsonDocument> response)
@@ -3393,7 +2602,7 @@ namespace BlazorGQL.Api.State
             {
                 return new global::BlazorGQL.Api.State.OrderData(
                     typename,
-                    orderNumber: DeserializeNonNullableInt32(
+                    orderNumber: DeserializeNonNullableString(
                         global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
                             obj,
                             "orderNumber")),
@@ -3432,16 +2641,6 @@ namespace BlazorGQL.Api.State
             throw new global::System.NotSupportedException();
         }
 
-        private global::System.Int32 DeserializeNonNullableInt32(global::System.Text.Json.JsonElement? obj)
-        {
-            if (!obj.HasValue)
-            {
-                throw new global::System.ArgumentNullException();
-            }
-
-            return _intParser.Parse(obj.Value.GetInt32()!);
-        }
-
         private global::System.String DeserializeNonNullableString(global::System.Text.Json.JsonElement? obj)
         {
             if (!obj.HasValue)
@@ -3449,7 +2648,7 @@ namespace BlazorGQL.Api.State
                 throw new global::System.ArgumentNullException();
             }
 
-            return _stringParser.Parse(obj.Value.GetString()!);
+            return _iDParser.Parse(obj.Value.GetString()!);
         }
 
         private global::System.String? DeserializeString(global::System.Text.Json.JsonElement? obj)
@@ -3539,163 +2738,6 @@ namespace BlazorGQL.Api.State
 
             throw new global::System.NotSupportedException();
         }
-    }
-}
-
-
-// GetOrderBuilder.cs
-#nullable enable
-
-namespace BlazorGQL.Api.State
-{
-    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
-    public partial class GetOrderBuilder
-        : global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::BlazorGQL.Api.IGetOrderResult>
-    {
-        private readonly global::StrawberryShake.IEntityStore _entityStore;
-        private readonly global::StrawberryShake.IEntityIdSerializer _idSerializer;
-        private readonly global::StrawberryShake.IOperationResultDataFactory<global::BlazorGQL.Api.IGetOrderResult> _resultDataFactory;
-        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Int32, global::System.Int32> _intParser;
-        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _stringParser;
-
-        public GetOrderBuilder(
-            global::StrawberryShake.IEntityStore entityStore,
-            global::StrawberryShake.IEntityIdSerializer idSerializer,
-            global::StrawberryShake.IOperationResultDataFactory<global::BlazorGQL.Api.IGetOrderResult> resultDataFactory,
-            global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
-        {
-            _entityStore = entityStore
-                 ?? throw new global::System.ArgumentNullException(nameof(entityStore));
-            _idSerializer = idSerializer
-                 ?? throw new global::System.ArgumentNullException(nameof(idSerializer));
-            _resultDataFactory = resultDataFactory
-                 ?? throw new global::System.ArgumentNullException(nameof(resultDataFactory));
-            _intParser = serializerResolver.GetLeafValueParser<global::System.Int32, global::System.Int32>("Int")
-                 ?? throw new global::System.ArgumentException("No serializer for type `Int` found.");
-            _stringParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("String")
-                 ?? throw new global::System.ArgumentException("No serializer for type `String` found.");
-        }
-
-        public global::StrawberryShake.IOperationResult<IGetOrderResult> Build(global::StrawberryShake.Response<global::System.Text.Json.JsonDocument> response)
-        {
-            (IGetOrderResult Result, GetOrderResultInfo Info)? data = null;
-            global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.IClientError>? errors = null;
-
-            try
-            {
-                if (response.Body != null)
-                {
-                    if (response.Body.RootElement.TryGetProperty("data", out global::System.Text.Json.JsonElement dataElement) && dataElement.ValueKind == global::System.Text.Json.JsonValueKind.Object)
-                    {
-                        data = BuildData(dataElement);
-                    }
-                    if (response.Body.RootElement.TryGetProperty("errors", out global::System.Text.Json.JsonElement errorsElement))
-                    {
-                        errors = global::StrawberryShake.Json.JsonErrorParser.ParseErrors(errorsElement);
-                    }
-                }
-            }
-            catch(global::System.Exception ex)
-            {
-                errors = new global::StrawberryShake.IClientError[] {
-                    new global::StrawberryShake.ClientError(
-                        ex.Message,
-                        exception: ex)
-                };
-            }
-
-            return new global::StrawberryShake.OperationResult<IGetOrderResult>(
-                data?.Result,
-                data?.Info,
-                _resultDataFactory,
-                errors);
-        }
-
-        private (IGetOrderResult, GetOrderResultInfo) BuildData(global::System.Text.Json.JsonElement obj)
-        {
-            var entityIds = new global::System.Collections.Generic.HashSet<global::StrawberryShake.EntityId>();
-            global::StrawberryShake.IEntityStoreSnapshot snapshot = default!;
-
-            global::BlazorGQL.Api.State.OrderData? orderId = default!;
-            _entityStore.Update(session => 
-            {
-                orderId = DeserializeIGetOrder_Order(
-                    session,
-                    global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
-                        obj,
-                        "order"),
-                    entityIds);
-
-                snapshot = session.CurrentSnapshot;
-            });
-
-            var resultInfo = new GetOrderResultInfo(
-                orderId,
-                entityIds,
-                snapshot.Version);
-
-            return (
-                _resultDataFactory.Create(resultInfo),
-                resultInfo
-            );
-        }
-
-        private global::BlazorGQL.Api.State.OrderData? DeserializeIGetOrder_Order(
-            global::StrawberryShake.IEntityStoreUpdateSession session,
-            global::System.Text.Json.JsonElement? obj,
-            global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
-        {
-            if (!obj.HasValue)
-            {
-                return null;
-            }
-
-            var typename = obj.Value
-                .GetProperty("__typename")
-                .GetString();
-
-            if (typename?.Equals("Order", global::System.StringComparison.Ordinal) ?? false)
-            {
-                return new global::BlazorGQL.Api.State.OrderData(
-                    typename,
-                    orderNumber: DeserializeNonNullableInt32(
-                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
-                            obj,
-                            "orderNumber")),
-                    deliveryName: DeserializeNonNullableString(
-                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
-                            obj,
-                            "deliveryName")),
-                    deliveryAddress1: DeserializeNonNullableString(
-                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
-                            obj,
-                            "deliveryAddress1")),
-                    deliveryAddress2: DeserializeString(
-                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
-                            obj,
-                            "deliveryAddress2")),
-                    deliveryPostCode: DeserializeNonNullableString(
-                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
-                            obj,
-                            "deliveryPostCode")),
-                    deliveryCity: DeserializeNonNullableString(
-                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
-                            obj,
-                            "deliveryCity")),
-                    deliveryCountry: DeserializeNonNullableString(
-                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
-                            obj,
-                            "deliveryCountry")),
-                    lineItems: UpdateNonNullableIGetOrders_Orders_LineItemsEntityNonNullableArray(
-                        session,
-                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
-                            obj,
-                            "lineItems"),
-                        entityIds));
-            }
-
-            throw new global::System.NotSupportedException();
-        }
 
         private global::System.Int32 DeserializeNonNullableInt32(global::System.Text.Json.JsonElement? obj)
         {
@@ -3705,104 +2747,6 @@ namespace BlazorGQL.Api.State
             }
 
             return _intParser.Parse(obj.Value.GetInt32()!);
-        }
-
-        private global::System.String DeserializeNonNullableString(global::System.Text.Json.JsonElement? obj)
-        {
-            if (!obj.HasValue)
-            {
-                throw new global::System.ArgumentNullException();
-            }
-
-            return _stringParser.Parse(obj.Value.GetString()!);
-        }
-
-        private global::System.String? DeserializeString(global::System.Text.Json.JsonElement? obj)
-        {
-            if (!obj.HasValue)
-            {
-                return null;
-            }
-
-            return _stringParser.Parse(obj.Value.GetString()!);
-        }
-
-        private global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId> UpdateNonNullableIGetOrders_Orders_LineItemsEntityNonNullableArray(
-            global::StrawberryShake.IEntityStoreUpdateSession session,
-            global::System.Text.Json.JsonElement? obj,
-            global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
-        {
-            if (!obj.HasValue)
-            {
-                throw new global::System.ArgumentNullException();
-            }
-
-            var lineItems = new global::System.Collections.Generic.List<global::StrawberryShake.EntityId>();
-
-            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
-            {
-                lineItems.Add(UpdateNonNullableIGetOrders_Orders_LineItemsEntity(
-                    session,
-                    child,
-                    entityIds));
-            }
-
-            return lineItems;
-        }
-
-        private global::StrawberryShake.EntityId UpdateNonNullableIGetOrders_Orders_LineItemsEntity(
-            global::StrawberryShake.IEntityStoreUpdateSession session,
-            global::System.Text.Json.JsonElement? obj,
-            global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
-        {
-            if (!obj.HasValue)
-            {
-                throw new global::System.ArgumentNullException();
-            }
-
-            global::StrawberryShake.EntityId entityId = _idSerializer.Parse(obj.Value);
-            entityIds.Add(entityId);
-
-
-            if (entityId.Name.Equals(
-                    "LineItem",
-                    global::System.StringComparison.Ordinal))
-            {
-                if (session.CurrentSnapshot.TryGetEntity(
-                        entityId,
-                        out global::BlazorGQL.Api.State.LineItemEntity? entity))
-                {
-                    session.SetEntity(
-                        entityId,
-                        new global::BlazorGQL.Api.State.LineItemEntity(
-                            DeserializeNonNullableString(
-                                global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
-                                    obj,
-                                    "sku")),
-                            DeserializeNonNullableInt32(
-                                global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
-                                    obj,
-                                    "quantity"))));
-                }
-                else
-                {
-                    session.SetEntity(
-                        entityId,
-                        new global::BlazorGQL.Api.State.LineItemEntity(
-                            DeserializeNonNullableString(
-                                global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
-                                    obj,
-                                    "sku")),
-                            DeserializeNonNullableInt32(
-                                global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
-                                    obj,
-                                    "quantity"))));
-                }
-
-                return entityId;
-            }
-
-            throw new global::System.NotSupportedException();
         }
     }
 }
@@ -3960,7 +2904,7 @@ namespace BlazorGQL.Api.State
                                 global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
                                     obj,
                                     "name")),
-                            DeserializeNonNullableString(
+                            DeserializeString(
                                 global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
                                     obj,
                                     "sku")),
@@ -4000,7 +2944,7 @@ namespace BlazorGQL.Api.State
                                 global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
                                     obj,
                                     "name")),
-                            DeserializeNonNullableString(
+                            DeserializeString(
                                 global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
                                     obj,
                                     "sku")),
@@ -4043,6 +2987,16 @@ namespace BlazorGQL.Api.State
             if (!obj.HasValue)
             {
                 throw new global::System.ArgumentNullException();
+            }
+
+            return _stringParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::System.String? DeserializeString(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
             }
 
             return _stringParser.Parse(obj.Value.GetString()!);
@@ -4130,6 +3084,7 @@ namespace BlazorGQL.Api.State
         private readonly global::StrawberryShake.IOperationResultDataFactory<global::BlazorGQL.Api.IAddOrderResult> _resultDataFactory;
         private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _stringParser;
         private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Int32, global::System.Int32> _intParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _iDParser;
 
         public AddOrderBuilder(
             global::StrawberryShake.IEntityStore entityStore,
@@ -4147,6 +3102,8 @@ namespace BlazorGQL.Api.State
                  ?? throw new global::System.ArgumentException("No serializer for type `String` found.");
             _intParser = serializerResolver.GetLeafValueParser<global::System.Int32, global::System.Int32>("Int")
                  ?? throw new global::System.ArgumentException("No serializer for type `Int` found.");
+            _iDParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("ID")
+                 ?? throw new global::System.ArgumentException("No serializer for type `ID` found.");
         }
 
         public global::StrawberryShake.IOperationResult<IAddOrderResult> Build(global::StrawberryShake.Response<global::System.Text.Json.JsonDocument> response)
@@ -4224,7 +3181,7 @@ namespace BlazorGQL.Api.State
             {
                 return new global::BlazorGQL.Api.State.OrderData(
                     typename,
-                    orderNumber: DeserializeNonNullableInt32(
+                    orderNumber: DeserializeNonNullableString(
                         global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
                             obj,
                             "orderNumber")),
@@ -4237,16 +3194,6 @@ namespace BlazorGQL.Api.State
             throw new global::System.NotSupportedException();
         }
 
-        private global::System.Int32 DeserializeNonNullableInt32(global::System.Text.Json.JsonElement? obj)
-        {
-            if (!obj.HasValue)
-            {
-                throw new global::System.ArgumentNullException();
-            }
-
-            return _intParser.Parse(obj.Value.GetInt32()!);
-        }
-
         private global::System.String DeserializeNonNullableString(global::System.Text.Json.JsonElement? obj)
         {
             if (!obj.HasValue)
@@ -4254,7 +3201,7 @@ namespace BlazorGQL.Api.State
                 throw new global::System.ArgumentNullException();
             }
 
-            return _stringParser.Parse(obj.Value.GetString()!);
+            return _iDParser.Parse(obj.Value.GetString()!);
         }
     }
 }
@@ -4270,7 +3217,7 @@ namespace BlazorGQL.Api.State
     {
         public OrderData(
             global::System.String __typename,
-            global::System.Int32? orderNumber = null,
+            global::System.String? orderNumber = null,
             global::System.String? deliveryName = null,
             global::System.String? deliveryAddress1 = null,
             global::System.String? deliveryAddress2 = null,
@@ -4293,7 +3240,7 @@ namespace BlazorGQL.Api.State
 
         public global::System.String __typename { get; }
 
-        public global::System.Int32? OrderNumber { get; }
+        public global::System.String? OrderNumber { get; }
 
         public global::System.String? DeliveryName { get; }
 
@@ -4325,20 +3272,16 @@ namespace BlazorGQL.Api
         : global::BlazorGQL.Api.IApiClient
     {
         private readonly global::BlazorGQL.Api.IGetOrdersQuery _getOrders;
-        private readonly global::BlazorGQL.Api.IGetOrderQuery _getOrder;
         private readonly global::BlazorGQL.Api.IGetProductsQuery _getProducts;
         private readonly global::BlazorGQL.Api.IAddOrderMutation _addOrder;
 
         public ApiClient(
             global::BlazorGQL.Api.IGetOrdersQuery getOrders,
-            global::BlazorGQL.Api.IGetOrderQuery getOrder,
             global::BlazorGQL.Api.IGetProductsQuery getProducts,
             global::BlazorGQL.Api.IAddOrderMutation addOrder)
         {
             _getOrders = getOrders
                  ?? throw new global::System.ArgumentNullException(nameof(getOrders));
-            _getOrder = getOrder
-                 ?? throw new global::System.ArgumentNullException(nameof(getOrder));
             _getProducts = getProducts
                  ?? throw new global::System.ArgumentNullException(nameof(getProducts));
             _addOrder = addOrder
@@ -4348,8 +3291,6 @@ namespace BlazorGQL.Api
         public static global::System.String ClientName => "ApiClient";
 
         public global::BlazorGQL.Api.IGetOrdersQuery GetOrders => _getOrders;
-
-        public global::BlazorGQL.Api.IGetOrderQuery GetOrder => _getOrder;
 
         public global::BlazorGQL.Api.IGetProductsQuery GetProducts => _getProducts;
 
@@ -4370,8 +3311,6 @@ namespace BlazorGQL.Api
     public interface IApiClient
     {
         global::BlazorGQL.Api.IGetOrdersQuery GetOrders { get; }
-
-        global::BlazorGQL.Api.IGetOrderQuery GetOrder { get; }
 
         global::BlazorGQL.Api.IGetProductsQuery GetProducts { get; }
 
@@ -4431,7 +3370,7 @@ namespace BlazorGQL.Api.State
                 type,
                 obj
                     .GetProperty("id")
-                    .GetGuid()!);
+                    .GetString()!);
         }
 
         private global::System.String FormatLineItemEntityId(global::StrawberryShake.EntityId entityId)
@@ -4448,7 +3387,7 @@ namespace BlazorGQL.Api.State
 
             jsonWriter.WriteString(
                 "id",
-                (global::System.Guid)entityId.Value);
+                (global::System.String)entityId.Value);
             jsonWriter.WriteEndObject();
             jsonWriter.Flush();
 
@@ -4575,10 +3514,6 @@ namespace Microsoft.Extensions.DependencyInjection
                     global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(
                 services,
-                sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::BlazorGQL.Api.GetOrderQuery>(
-                    global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(
-                services,
                 sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::BlazorGQL.Api.GetProductsQuery>(
                     global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(
@@ -4618,7 +3553,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 });
 
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.LineItemEntity, global::BlazorGQL.Api.GetOrders_Orders_LineItems_LineItem>, global::BlazorGQL.Api.State.GetOrders_Orders_LineItems_LineItemFromLineItemEntityMapper>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.LineItemEntity, global::BlazorGQL.Api.GetOrder_Order_LineItems_LineItem>, global::BlazorGQL.Api.State.GetOrder_Order_LineItems_LineItemFromLineItemEntityMapper>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.ProductEntity, global::BlazorGQL.Api.GetProducts_Products_Product>, global::BlazorGQL.Api.State.GetProducts_Products_ProductFromProductEntityMapper>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.InventoryEntity, global::BlazorGQL.Api.GetProducts_Products_Inventory_Inventory>, global::BlazorGQL.Api.State.GetProducts_Products_Inventory_InventoryFromInventoryEntityMapper>(services);
 
@@ -4667,25 +3601,6 @@ namespace Microsoft.Extensions.DependencyInjection
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::BlazorGQL.Api.IGetOrdersQuery>(
                 services,
                 sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::BlazorGQL.Api.GetOrdersQuery>(sp));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::BlazorGQL.Api.IGetOrderResult>, global::BlazorGQL.Api.State.GetOrderResultFactory>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(
-                services,
-                sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::BlazorGQL.Api.IGetOrderResult>>(sp));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(
-                services,
-                sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::BlazorGQL.Api.IGetOrderQuery>(sp));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::BlazorGQL.Api.IGetOrderResult>, global::BlazorGQL.Api.State.GetOrderBuilder>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationExecutor<global::BlazorGQL.Api.IGetOrderResult>>(
-                services,
-                sp => new global::StrawberryShake.OperationExecutor<global::System.Text.Json.JsonDocument, global::BlazorGQL.Api.IGetOrderResult>(
-                    global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.Transport.Http.HttpConnection>(sp),
-                    () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::BlazorGQL.Api.IGetOrderResult>>(sp),
-                    global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationStore>(sp),
-                    strategy));
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::BlazorGQL.Api.GetOrderQuery>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::BlazorGQL.Api.IGetOrderQuery>(
-                services,
-                sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::BlazorGQL.Api.GetOrderQuery>(sp));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::BlazorGQL.Api.IGetProductsResult>, global::BlazorGQL.Api.State.GetProductsResultFactory>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(
                 services,

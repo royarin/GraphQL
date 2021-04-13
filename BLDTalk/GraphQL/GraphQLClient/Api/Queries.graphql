@@ -6,11 +6,6 @@ query getOrders {
 }
 
 
-query getOrder($orderNumber: Int!)  {
-  order (orderNumber: $orderNumber) {
-    ...orderFields
-  }
-}
 
 
 fragment orderFields on Order

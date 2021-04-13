@@ -1,55 +1,56 @@
 @namespace BlazorGQL.Pages.Order
 @page "/cartlist"
 
-<br />
-<h1><span class="oi oi-cart"></span> Your Cart</h1>
-<br />
-<div>
-    @if (_items == null || _items.Count == 0)
-    {
-        <h3>No items found in the cart...</h3>
-    }
-    else
-    {
 
-        <TableComponent Items="_items" Context="item">
-            <TableHeader>
+<form>
+    <EditForm Model="@_orderModel" OnValidSubmit="@CreateOrder">
+        <DataAnnotationsValidator />
+        <h1><span class="oi oi-cart"></span> Your Cart</h1>
+        <button style="float:right; margin-bottom: 10px" type="submit" class="btn btn-primary">Create Order</button>
+        <div>
+            @if (_items == null || _items.Count == 0)
+            {
+                <h3>No items found in the cart...</h3>
+            }
+            else
+            {
+                <TableComponent Items="_items" Context="item">
+                    <TableHeader>
 
-            </TableHeader>
-            <RowTemplate>
-                <td><img src=@item.Image style="max-height: 50px; max-width: 50px" /></td>
-                <td>
-                    <div><h5>@item.Name</h5></div>
-                    <div class="text1">@item.Description</div>
-                </td>
-                <td class="text1">
-                    <div>@item.Color</div>
-                    <div>@item.Size</div>
-                </td>
-                <td>
-                    <label style="float:left; margin-right: 25px">Quantity</label>
-                    <input class="form-control" style="width: 75px" type="number" @bind-value="item.Quantity" />
-                </td>
-                <td>
-                    <h2><a class="oi oi-trash showHand" @onclick="() => RemoveItem(item)"></a></h2>
-                </td>
-                <td>
-                    <div class="text-dark"><h2>@item.Price</h2></div>
-                </td>
-            </RowTemplate>
-        </TableComponent>
-    }
-</div>
+                    </TableHeader>
+                    <RowTemplate>
+                        <td><img src=@item.Image style="max-height: 50px; max-width: 50px" /></td>
+                        <td>
+                            <div><h5>@item.Name</h5></div>
+                            <div class="text1">@item.Description</div>
+                        </td>
+                        <td class="text1">
+                            <div>@item.Color</div>
+                            <div>@item.Size</div>
+                        </td>
+                        <td>
+                            <label style="float:left; margin-right: 25px">Quantity</label>
+                            <input class="form-control" style="width: 75px" type="number" @bind-value="item.Quantity" />
+                        </td>
+                        <td>
+                            <h2><a class="oi oi-trash showHand" @onclick="() => RemoveItem(item)"></a></h2>
+                        </td>
+                        <td>
+                            <div class="text-dark"><h2>@item.TotalPrice.ToString("c2")</h2></div>
+                        </td>
+                    </RowTemplate>
+                </TableComponent>
+            }
+        </div>
 
-@if (_items != null && _items.Count > 0)
-{
-    <div class="card" style="width: 25rem; margin: auto">
-        <div class="card-body">
-            <h5 class="card-title">Delivery Address</h5>
-            <form>
-                <EditForm Model="@_orderModel" OnValidSubmit="@CreateOrder">
-                    <DataAnnotationsValidator />
-                   
+        @if (_items != null && _items.Count > 0)
+        {
+
+            <div class="card" style="width: 25rem; margin: auto">
+                <div class="card-body">
+                    <h5 class="card-title">Delivery Address</h5>
+
+
                     <div class="form-group">
                         <label>Delivery Name</label>
                         <InputText class="form-control" @bind-Value="_orderModel.DeliveryName" />
@@ -78,15 +79,11 @@
                         <ValidationMessage For="@(() => _orderModel.DeliveryCountry)" />
                     </div>
 
-                    <div>
-                        <button type="submit" class="btn btn-primary">Create Order</button>
-                    </div>
-
-                </EditForm>
-            </form>
-        </div>
-    </div>
-}
+                </div>
+            </div>
+        }
+    </EditForm>
+</form>
 
 
 

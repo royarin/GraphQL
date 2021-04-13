@@ -21,6 +21,7 @@ namespace BlazorGQL.Services
             else
             {
                 exists.Quantity++;
+               
             }
             FireCartHasChanged();
         }

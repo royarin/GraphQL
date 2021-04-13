@@ -1,7 +1,6 @@
 @namespace BlazorGQL.Pages.Order
 @page "/orderlist"
 
-
 @*<h1><span class="oi oi-cart"></span> Orders</h1>*@
 
 <div>
@@ -11,20 +10,31 @@
     }
     else
     {
-        @foreach (var order in _orders)
-        {
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">@order.OrderNumber</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">@order.DeliveryName</h6>
-                    @foreach (var item in order.LineItems)
-                    {
-                        <p class="card-text">SKU: @item.Sku</p>
-                        <p class="card-text">Quantity: @item.Quantity</p>
-                    }
-                </div>
-            </div>
-        }
+
+        <TableComponent Items="_orders" Context="item">
+            <TableHeader>
+
+            </TableHeader>
+            <RowTemplate>
+
+                <td>
+                    <div><h1>@item.OrderNumber - @item.DeliveryName</h1></div>
+                </td>
+                <td>
+                    <div>
+                        <div><h5>@item.DeliveryAddress1</h5></div>
+                        <div><h5>@item.DeliveryPostCode @item.DeliveryCity</h5></div>
+                        <div><h5>@item.DeliveryCountry</h5></div>
+                    </div>
+                </td>
+                <td>
+                    @foreach (var item in item.LineItems)
+                        {
+                        <p class="card-text">SKU: @item.Sku Quantity: @item.Quantity</p>
+                        }
+                </td>
+            </RowTemplate>
+        </TableComponent>
     }
 </div>
 

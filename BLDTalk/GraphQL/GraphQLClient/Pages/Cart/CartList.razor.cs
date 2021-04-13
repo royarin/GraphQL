@@ -1,10 +1,8 @@
 ﻿using BlazorGQL.Model;
 using BlazorGQL.Services;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace BlazorGQL.Pages.Order
 {
@@ -49,7 +47,6 @@ namespace BlazorGQL.Pages.Order
             await OrderService.SaveOrder(_orderModel);
             CartService.ClearCart();
             NavigationManager.NavigateTo("cartfinished");
-           
         }
 
         private void RemoveItem(ProductModel item)

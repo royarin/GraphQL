@@ -4,8 +4,8 @@
   "extensions": {
     "strawberryShake": {
       "name": "ApiClient",
-      "namespace":  "BlazorGQL.Api",
-      "url": "https://localhost:5001/graphql",
+      "namespace": "BlazorGQL.Api",
+      "url": "https://localhost:5001/graphql/",
       "dependencyInjection": true
     }
   }

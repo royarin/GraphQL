@@ -27,15 +27,19 @@ namespace BlazorGQL.Services
         public async Task<IEnumerable<OrderModel>> GetOrders()
         {
             var result = await _client.GetOrders.ExecuteAsync();
-            if (result.Data != null)
+            if (result.Data == null)
                 return null;
             return result.Data!.Orders.Select(x => new OrderModel()
             {
                 OrderNumber = x.OrderNumber,
                 DeliveryName = x.DeliveryName,
                 DeliveryAddress1 = x.DeliveryAddress1,
-                DeliveryAddress2 = string.Empty
-            });
+                DeliveryAddress2 = x.DeliveryAddress2,
+                DeliveryPostCode = x.DeliveryPostCode,
+                DeliveryCity = x.DeliveryCity,
+                DeliveryCountry = x.DeliveryCountry,
+                LineItems = x.LineItems.Select(x => new OrderLineItemModel() { Sku = x.Sku, Quantity = x.Quantity }).ToList()
+            }); ;
         }
 
         public async Task<OrderModel> SaveOrder(OrderModel order)

@@ -18,6 +18,14 @@ fragment orderFields on Order
     orderNumber
     deliveryName
     deliveryAddress1
+    deliveryAddress2
+    deliveryPostCode
+    deliveryCity
+    deliveryCountry
+    lineItems {
+      sku
+      quantity
+    }
 }
 
 query getProducts {

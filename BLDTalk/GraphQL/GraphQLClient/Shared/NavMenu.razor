@@ -1,42 +1,72 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">BlazorGQL</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+﻿
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-</div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="orderlist" Match="NavLinkMatch.All">
-                <span class="oi oi-cart" aria-hidden="true"></span> Orders
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="productlist">
-                <span class="oi oi-box" aria-hidden="true"></span> Products
-            </NavLink>
-        </li>
-        @*<li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </li>*@
-    </ul>
-</div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <NavLink class="nav-link text-dark" href="" Match="NavLinkMatch.All">
+                    <h3>
+                        <span class="oi oi-star" aria-hidden="true" style="padding-right: 10px"></span>
+                        Shop
+                    </h3>
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link text-dark" href="orderlist">
+                    <h3>
+                        <span class="oi oi-inbox" aria-hidden="true" style="padding-right: 10px"></span>
+                        My Orders
+                    </h3>
+                </NavLink>
+            </li>
 
-@code {
-    private bool collapseNavMenu = true;
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <BlazorGQL.Pages.Cart.CartSummary></BlazorGQL.Pages.Cart.CartSummary>
+        </form>
+    </div>
+</nav>
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
+@*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" href=""></a>
+            <button class="navbar-toggler" type="button" @onclick="ToggleNavMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-dark" href="productlist" Match="NavLinkMatch.All">
+                            <span class="oi oi-box" aria-hidden="true" style="padding-right: 10px"></span>
+                            <h3>Products</h3>
+                        </NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-dark" href="orderlist">
+                            <span class="oi oi-plus" aria-hidden="true" style="padding-right: 10px"></span>
+                            <h3>Orders</h3>
+                        </NavLink>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    @code {
+        bool collapseNavMenu = true;
+
+        string baseMenuClass = "navbar-collapse d-sm-inline-flex flex-sm-row-reverse";
+
+        string NavMenuCssClass => baseMenuClass + (collapseNavMenu ? " collapse" : "");
+
+        void ToggleNavMenu()
+        {
+            collapseNavMenu = !collapseNavMenu;
+        }
+    }*@

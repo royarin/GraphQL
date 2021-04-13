@@ -1,20 +1,8 @@
 @namespace BlazorGQL.Pages.Order
-@page "/"
+@page "/orderlist"
 
 
-<h1><span class="oi oi-cart"></span> Orders</h1>
-
-<div>
-    <button type="button" class="btn btn-primary" @onclick="NewOrder">New Order</button>
-</div>
-
-<ModalComponent 
-                ShowModal="_modalShow" 
-                OnResultCallback="SaveOrder" Title="New Order">
-    <ItemTemplate>
-        <OrderDetail Instance="_currentOrder"></OrderDetail>
-    </ItemTemplate>
-</ModalComponent>
+@*<h1><span class="oi oi-cart"></span> Orders</h1>*@
 
 <div>
     @if (_orders == null)
@@ -23,16 +11,20 @@
     }
     else
     {
-        <TableComponent Items="_orders" Context="order">
-            <TableHeader>
-                <th>OrderNumber</th>
-                <th>DeliveryName</th>
-            </TableHeader>
-            <RowTemplate>
-                <td>@order.OrderNumber</td>
-                <td>@order.DeliveryName</td>
-            </RowTemplate>
-        </TableComponent>
+        @foreach (var order in _orders)
+        {
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@order.OrderNumber</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@order.DeliveryName</h6>
+                    @foreach (var item in order.LineItems)
+                    {
+                        <p class="card-text">SKU: @item.Sku</p>
+                        <p class="card-text">Quantity: @item.Quantity</p>
+                    }
+                </div>
+            </div>
+        }
     }
 </div>
 

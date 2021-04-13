@@ -1,5 +1,6 @@
 ﻿
-
+-- for more info see 
+https://chillicream.com/docs/strawberryshake/get-started
 
 -- install tools (used to generate c# code)
 

@@ -1,4 +1,27 @@
-﻿// ProductEntity.cs
+﻿// LineItemEntity.cs
+#nullable enable
+
+namespace BlazorGQL.Api.State
+{
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
+    public partial class LineItemEntity
+    {
+        public LineItemEntity(
+            global::System.String sku,
+            global::System.Int32 quantity)
+        {
+            Sku = sku;
+            Quantity = quantity;
+        }
+
+        public global::System.String Sku { get; }
+
+        public global::System.Int32 Quantity { get; }
+    }
+}
+
+
+// ProductEntity.cs
 #nullable enable
 
 namespace BlazorGQL.Api.State
@@ -73,11 +96,16 @@ namespace BlazorGQL.Api.State
         : global::StrawberryShake.IOperationResultDataFactory<global::BlazorGQL.Api.GetOrdersResult>
     {
         private readonly global::StrawberryShake.IEntityStore _entityStore;
+        private readonly global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.LineItemEntity, GetOrders_Orders_LineItems_LineItem> _getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper;
 
-        public GetOrdersResultFactory(global::StrawberryShake.IEntityStore entityStore)
+        public GetOrdersResultFactory(
+            global::StrawberryShake.IEntityStore entityStore,
+            global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.LineItemEntity, GetOrders_Orders_LineItems_LineItem> getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper)
         {
             _entityStore = entityStore
                  ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+            _getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper = getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper
+                 ?? throw new global::System.ArgumentNullException(nameof(getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper));
         }
 
         global::System.Type global::StrawberryShake.IOperationResultDataFactory.ResultType => typeof(global::BlazorGQL.Api.IGetOrdersResult);
@@ -140,13 +168,57 @@ namespace BlazorGQL.Api.State
                 returnValue = new GetOrders_Orders_Order(
                     data.OrderNumber ?? throw new global::System.ArgumentNullException(),
                     data.DeliveryName ?? throw new global::System.ArgumentNullException(),
-                    data.DeliveryAddress1 ?? throw new global::System.ArgumentNullException());
+                    data.DeliveryAddress1 ?? throw new global::System.ArgumentNullException(),
+                    data.DeliveryAddress2,
+                    data.DeliveryPostCode ?? throw new global::System.ArgumentNullException(),
+                    data.DeliveryCity ?? throw new global::System.ArgumentNullException(),
+                    data.DeliveryCountry ?? throw new global::System.ArgumentNullException(),
+                    MapNonNullableIGetOrders_Orders_LineItemsNonNullableArray(
+                        data.LineItems ?? throw new global::System.ArgumentNullException(),
+                        snapshot));
             }
             else
             {
                 throw new global::System.NotSupportedException();
             }
             return returnValue;
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::BlazorGQL.Api.IGetOrders_Orders_LineItems> MapNonNullableIGetOrders_Orders_LineItemsNonNullableArray(
+            global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId>? list,
+            global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (list is null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            var lineItems = new global::System.Collections.Generic.List<global::BlazorGQL.Api.IGetOrders_Orders_LineItems>();
+
+            foreach (global::StrawberryShake.EntityId child in list)
+            {
+                lineItems.Add(MapNonNullableIGetOrders_Orders_LineItems(
+                    child,
+                    snapshot));
+            }
+
+            return lineItems;
+        }
+
+        private global::BlazorGQL.Api.IGetOrders_Orders_LineItems MapNonNullableIGetOrders_Orders_LineItems(
+            global::StrawberryShake.EntityId entityId,
+            global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+
+            if (entityId.Name.Equals(
+                    "LineItem",
+                    global::System.StringComparison.Ordinal))
+            {
+                return _getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper.Map(
+                    snapshot.GetEntity<global::BlazorGQL.Api.State.LineItemEntity>(entityId)
+                        ?? throw new global::StrawberryShake.GraphQLClientException());
+            }
+            throw new global::System.NotSupportedException();
         }
 
         global::System.Object global::StrawberryShake.IOperationResultDataFactory.Create(
@@ -305,11 +377,21 @@ namespace BlazorGQL.Api
         public GetOrders_Orders_Order(
             global::System.Int32 orderNumber,
             global::System.String deliveryName,
-            global::System.String deliveryAddress1)
+            global::System.String deliveryAddress1,
+            global::System.String? deliveryAddress2,
+            global::System.String deliveryPostCode,
+            global::System.String deliveryCity,
+            global::System.String deliveryCountry,
+            global::System.Collections.Generic.IReadOnlyList<global::BlazorGQL.Api.IGetOrders_Orders_LineItems> lineItems)
         {
             OrderNumber = orderNumber;
             DeliveryName = deliveryName;
             DeliveryAddress1 = deliveryAddress1;
+            DeliveryAddress2 = deliveryAddress2;
+            DeliveryPostCode = deliveryPostCode;
+            DeliveryCity = deliveryCity;
+            DeliveryCountry = deliveryCountry;
+            LineItems = lineItems;
         }
 
         public global::System.Int32 OrderNumber { get; }
@@ -317,6 +399,16 @@ namespace BlazorGQL.Api
         public global::System.String DeliveryName { get; }
 
         public global::System.String DeliveryAddress1 { get; }
+
+        public global::System.String? DeliveryAddress2 { get; }
+
+        public global::System.String DeliveryPostCode { get; }
+
+        public global::System.String DeliveryCity { get; }
+
+        public global::System.String DeliveryCountry { get; }
+
+        public global::System.Collections.Generic.IReadOnlyList<global::BlazorGQL.Api.IGetOrders_Orders_LineItems> LineItems { get; }
 
         public override global::System.Boolean Equals(global::System.Object? obj)
         {
@@ -365,7 +457,14 @@ namespace BlazorGQL.Api
 
             return (OrderNumber == other.OrderNumber)
                 && DeliveryName.Equals(other.DeliveryName)
-                && DeliveryAddress1.Equals(other.DeliveryAddress1);
+                && DeliveryAddress1.Equals(other.DeliveryAddress1)
+                && ((DeliveryAddress2 is null && other.DeliveryAddress2 is null) ||DeliveryAddress2 != null && DeliveryAddress2.Equals(other.DeliveryAddress2))
+                && DeliveryPostCode.Equals(other.DeliveryPostCode)
+                && DeliveryCity.Equals(other.DeliveryCity)
+                && DeliveryCountry.Equals(other.DeliveryCountry)
+                && global::StrawberryShake.Helper.ComparisonHelper.SequenceEqual(
+                        LineItems,
+                        other.LineItems);
         }
 
         public override global::System.Int32 GetHashCode()
@@ -379,6 +478,144 @@ namespace BlazorGQL.Api
                 hash ^= 397 * DeliveryName.GetHashCode();
 
                 hash ^= 397 * DeliveryAddress1.GetHashCode();
+
+                if (!(DeliveryAddress2 is null))
+                {
+                    hash ^= 397 * DeliveryAddress2.GetHashCode();
+                }
+
+                hash ^= 397 * DeliveryPostCode.GetHashCode();
+
+                hash ^= 397 * DeliveryCity.GetHashCode();
+
+                hash ^= 397 * DeliveryCountry.GetHashCode();
+
+                foreach (var LineItems_elm in LineItems)
+                {
+                    hash ^= 397 * LineItems_elm.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+    }
+}
+
+
+// GetOrders_Orders_LineItems_LineItemFromLineItemEntityMapper.cs
+#nullable enable
+
+namespace BlazorGQL.Api.State
+{
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
+    public partial class GetOrders_Orders_LineItems_LineItemFromLineItemEntityMapper
+        : global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.LineItemEntity, GetOrders_Orders_LineItems_LineItem>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+
+        public GetOrders_Orders_LineItems_LineItemFromLineItemEntityMapper(global::StrawberryShake.IEntityStore entityStore)
+        {
+            _entityStore = entityStore
+                 ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+        }
+
+        public GetOrders_Orders_LineItems_LineItem Map(
+            global::BlazorGQL.Api.State.LineItemEntity entity,
+            global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
+        {
+            if (snapshot is null)
+            {
+                snapshot = _entityStore.CurrentSnapshot;
+            }
+
+            return new GetOrders_Orders_LineItems_LineItem(
+                entity.Sku,
+                entity.Quantity);
+        }
+    }
+}
+
+
+// GetOrders_Orders_LineItems_LineItem.cs
+#nullable enable
+
+namespace BlazorGQL.Api
+{
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
+    public partial class GetOrders_Orders_LineItems_LineItem
+        : global::System.IEquatable<GetOrders_Orders_LineItems_LineItem>
+        , IGetOrders_Orders_LineItems_LineItem
+    {
+        public GetOrders_Orders_LineItems_LineItem(
+            global::System.String sku,
+            global::System.Int32 quantity)
+        {
+            Sku = sku;
+            Quantity = quantity;
+        }
+
+        public global::System.String Sku { get; }
+
+        public global::System.Int32 Quantity { get; }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(
+                    null,
+                    obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(
+                    this,
+                    obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetOrders_Orders_LineItems_LineItem)obj);
+        }
+
+        public global::System.Boolean Equals(GetOrders_Orders_LineItems_LineItem? other)
+        {
+            if (ReferenceEquals(
+                    null,
+                    other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(
+                    this,
+                    other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (Sku.Equals(other.Sku))
+                && Quantity == other.Quantity;
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+
+                hash ^= 397 * Sku.GetHashCode();
+
+                hash ^= 397 * Quantity.GetHashCode();
 
                 return hash;
             }
@@ -413,6 +650,16 @@ namespace BlazorGQL.Api
         public global::System.String DeliveryName { get; }
 
         public global::System.String DeliveryAddress1 { get; }
+
+        public global::System.String? DeliveryAddress2 { get; }
+
+        public global::System.String DeliveryPostCode { get; }
+
+        public global::System.String DeliveryCity { get; }
+
+        public global::System.String DeliveryCountry { get; }
+
+        public global::System.Collections.Generic.IReadOnlyList<global::BlazorGQL.Api.IGetOrders_Orders_LineItems> LineItems { get; }
     }
 }
 
@@ -443,6 +690,34 @@ namespace BlazorGQL.Api
 }
 
 
+// IGetOrders_Orders_LineItems.cs
+#nullable enable
+
+namespace BlazorGQL.Api
+{
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
+    public interface IGetOrders_Orders_LineItems
+    {
+        public global::System.String Sku { get; }
+
+        public global::System.Int32 Quantity { get; }
+    }
+}
+
+
+// IGetOrders_Orders_LineItems_LineItem.cs
+#nullable enable
+
+namespace BlazorGQL.Api
+{
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
+    public interface IGetOrders_Orders_LineItems_LineItem
+        : IGetOrders_Orders_LineItems
+    {
+    }
+}
+
+
 // GetOrderResultFactory.cs
 #nullable enable
 
@@ -453,11 +728,16 @@ namespace BlazorGQL.Api.State
         : global::StrawberryShake.IOperationResultDataFactory<global::BlazorGQL.Api.GetOrderResult>
     {
         private readonly global::StrawberryShake.IEntityStore _entityStore;
+        private readonly global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.LineItemEntity, GetOrders_Orders_LineItems_LineItem> _getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper;
 
-        public GetOrderResultFactory(global::StrawberryShake.IEntityStore entityStore)
+        public GetOrderResultFactory(
+            global::StrawberryShake.IEntityStore entityStore,
+            global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.LineItemEntity, GetOrders_Orders_LineItems_LineItem> getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper)
         {
             _entityStore = entityStore
                  ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+            _getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper = getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper
+                 ?? throw new global::System.ArgumentNullException(nameof(getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper));
         }
 
         global::System.Type global::StrawberryShake.IOperationResultDataFactory.ResultType => typeof(global::BlazorGQL.Api.IGetOrderResult);
@@ -499,13 +779,57 @@ namespace BlazorGQL.Api.State
                 returnValue = new GetOrder_Order_Order(
                     data.OrderNumber ?? throw new global::System.ArgumentNullException(),
                     data.DeliveryName ?? throw new global::System.ArgumentNullException(),
-                    data.DeliveryAddress1 ?? throw new global::System.ArgumentNullException());
+                    data.DeliveryAddress1 ?? throw new global::System.ArgumentNullException(),
+                    data.DeliveryAddress2,
+                    data.DeliveryPostCode ?? throw new global::System.ArgumentNullException(),
+                    data.DeliveryCity ?? throw new global::System.ArgumentNullException(),
+                    data.DeliveryCountry ?? throw new global::System.ArgumentNullException(),
+                    MapNonNullableIGetOrders_Orders_LineItemsNonNullableArray(
+                        data.LineItems ?? throw new global::System.ArgumentNullException(),
+                        snapshot));
             }
             else
             {
                 throw new global::System.NotSupportedException();
             }
             return returnValue;
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::BlazorGQL.Api.IGetOrders_Orders_LineItems> MapNonNullableIGetOrders_Orders_LineItemsNonNullableArray(
+            global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId>? list,
+            global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (list is null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            var lineItems = new global::System.Collections.Generic.List<global::BlazorGQL.Api.IGetOrders_Orders_LineItems>();
+
+            foreach (global::StrawberryShake.EntityId child in list)
+            {
+                lineItems.Add(MapNonNullableIGetOrders_Orders_LineItems(
+                    child,
+                    snapshot));
+            }
+
+            return lineItems;
+        }
+
+        private global::BlazorGQL.Api.IGetOrders_Orders_LineItems MapNonNullableIGetOrders_Orders_LineItems(
+            global::StrawberryShake.EntityId entityId,
+            global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+
+            if (entityId.Name.Equals(
+                    "LineItem",
+                    global::System.StringComparison.Ordinal))
+            {
+                return _getOrders_Orders_LineItems_LineItemFromLineItemEntityMapper.Map(
+                    snapshot.GetEntity<global::BlazorGQL.Api.State.LineItemEntity>(entityId)
+                        ?? throw new global::StrawberryShake.GraphQLClientException());
+            }
+            throw new global::System.NotSupportedException();
         }
 
         global::System.Object global::StrawberryShake.IOperationResultDataFactory.Create(
@@ -656,11 +980,21 @@ namespace BlazorGQL.Api
         public GetOrder_Order_Order(
             global::System.Int32 orderNumber,
             global::System.String deliveryName,
-            global::System.String deliveryAddress1)
+            global::System.String deliveryAddress1,
+            global::System.String? deliveryAddress2,
+            global::System.String deliveryPostCode,
+            global::System.String deliveryCity,
+            global::System.String deliveryCountry,
+            global::System.Collections.Generic.IReadOnlyList<global::BlazorGQL.Api.IGetOrders_Orders_LineItems> lineItems)
         {
             OrderNumber = orderNumber;
             DeliveryName = deliveryName;
             DeliveryAddress1 = deliveryAddress1;
+            DeliveryAddress2 = deliveryAddress2;
+            DeliveryPostCode = deliveryPostCode;
+            DeliveryCity = deliveryCity;
+            DeliveryCountry = deliveryCountry;
+            LineItems = lineItems;
         }
 
         public global::System.Int32 OrderNumber { get; }
@@ -668,6 +1002,16 @@ namespace BlazorGQL.Api
         public global::System.String DeliveryName { get; }
 
         public global::System.String DeliveryAddress1 { get; }
+
+        public global::System.String? DeliveryAddress2 { get; }
+
+        public global::System.String DeliveryPostCode { get; }
+
+        public global::System.String DeliveryCity { get; }
+
+        public global::System.String DeliveryCountry { get; }
+
+        public global::System.Collections.Generic.IReadOnlyList<global::BlazorGQL.Api.IGetOrders_Orders_LineItems> LineItems { get; }
 
         public override global::System.Boolean Equals(global::System.Object? obj)
         {
@@ -716,7 +1060,14 @@ namespace BlazorGQL.Api
 
             return (OrderNumber == other.OrderNumber)
                 && DeliveryName.Equals(other.DeliveryName)
-                && DeliveryAddress1.Equals(other.DeliveryAddress1);
+                && DeliveryAddress1.Equals(other.DeliveryAddress1)
+                && ((DeliveryAddress2 is null && other.DeliveryAddress2 is null) ||DeliveryAddress2 != null && DeliveryAddress2.Equals(other.DeliveryAddress2))
+                && DeliveryPostCode.Equals(other.DeliveryPostCode)
+                && DeliveryCity.Equals(other.DeliveryCity)
+                && DeliveryCountry.Equals(other.DeliveryCountry)
+                && global::StrawberryShake.Helper.ComparisonHelper.SequenceEqual(
+                        LineItems,
+                        other.LineItems);
         }
 
         public override global::System.Int32 GetHashCode()
@@ -730,6 +1081,144 @@ namespace BlazorGQL.Api
                 hash ^= 397 * DeliveryName.GetHashCode();
 
                 hash ^= 397 * DeliveryAddress1.GetHashCode();
+
+                if (!(DeliveryAddress2 is null))
+                {
+                    hash ^= 397 * DeliveryAddress2.GetHashCode();
+                }
+
+                hash ^= 397 * DeliveryPostCode.GetHashCode();
+
+                hash ^= 397 * DeliveryCity.GetHashCode();
+
+                hash ^= 397 * DeliveryCountry.GetHashCode();
+
+                foreach (var LineItems_elm in LineItems)
+                {
+                    hash ^= 397 * LineItems_elm.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+    }
+}
+
+
+// GetOrder_Order_LineItems_LineItemFromLineItemEntityMapper.cs
+#nullable enable
+
+namespace BlazorGQL.Api.State
+{
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
+    public partial class GetOrder_Order_LineItems_LineItemFromLineItemEntityMapper
+        : global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.LineItemEntity, GetOrder_Order_LineItems_LineItem>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+
+        public GetOrder_Order_LineItems_LineItemFromLineItemEntityMapper(global::StrawberryShake.IEntityStore entityStore)
+        {
+            _entityStore = entityStore
+                 ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+        }
+
+        public GetOrder_Order_LineItems_LineItem Map(
+            global::BlazorGQL.Api.State.LineItemEntity entity,
+            global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
+        {
+            if (snapshot is null)
+            {
+                snapshot = _entityStore.CurrentSnapshot;
+            }
+
+            return new GetOrder_Order_LineItems_LineItem(
+                entity.Sku,
+                entity.Quantity);
+        }
+    }
+}
+
+
+// GetOrder_Order_LineItems_LineItem.cs
+#nullable enable
+
+namespace BlazorGQL.Api
+{
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
+    public partial class GetOrder_Order_LineItems_LineItem
+        : global::System.IEquatable<GetOrder_Order_LineItems_LineItem>
+        , IGetOrder_Order_LineItems_LineItem
+    {
+        public GetOrder_Order_LineItems_LineItem(
+            global::System.String sku,
+            global::System.Int32 quantity)
+        {
+            Sku = sku;
+            Quantity = quantity;
+        }
+
+        public global::System.String Sku { get; }
+
+        public global::System.Int32 Quantity { get; }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(
+                    null,
+                    obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(
+                    this,
+                    obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetOrder_Order_LineItems_LineItem)obj);
+        }
+
+        public global::System.Boolean Equals(GetOrder_Order_LineItems_LineItem? other)
+        {
+            if (ReferenceEquals(
+                    null,
+                    other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(
+                    this,
+                    other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (Sku.Equals(other.Sku))
+                && Quantity == other.Quantity;
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+
+                hash ^= 397 * Sku.GetHashCode();
+
+                hash ^= 397 * Quantity.GetHashCode();
 
                 return hash;
             }
@@ -772,6 +1261,34 @@ namespace BlazorGQL.Api
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
     public interface IGetOrder_Order_Order
         : IGetOrder_Order
+    {
+    }
+}
+
+
+// IGetOrder_Order_LineItems.cs
+#nullable enable
+
+namespace BlazorGQL.Api
+{
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
+    public interface IGetOrder_Order_LineItems
+    {
+        public global::System.String Sku { get; }
+
+        public global::System.Int32 Quantity { get; }
+    }
+}
+
+
+// IGetOrder_Order_LineItems_LineItem.cs
+#nullable enable
+
+namespace BlazorGQL.Api
+{
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "11.1.0.0")]
+    public interface IGetOrder_Order_LineItems_LineItem
+        : IGetOrder_Order_LineItems
     {
     }
 }
@@ -1971,6 +2488,18 @@ namespace BlazorGQL.Api
     ///   orderNumber
     ///   deliveryName
     ///   deliveryAddress1
+    ///   deliveryAddress2
+    ///   deliveryPostCode
+    ///   deliveryCity
+    ///   deliveryCountry
+    ///   lineItems {
+    ///     __typename
+    ///     sku
+    ///     quantity
+    ///     ... on LineItem {
+    ///       id
+    ///     }
+    ///   }
     /// }
     /// </code>
     /// </summary>
@@ -1986,9 +2515,9 @@ namespace BlazorGQL.Api
 
         public global::StrawberryShake.OperationKind Kind => global::StrawberryShake.OperationKind.Query;
 
-        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]{ 0x71, 0x75, 0x65, 0x72, 0x79, 0x20, 0x47, 0x65, 0x74, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x20, 0x7b, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x66, 0x72, 0x61, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x20, 0x6f, 0x6e, 0x20, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x20, 0x7b, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x31, 0x20, 0x7d };
+        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]{ 0x71, 0x75, 0x65, 0x72, 0x79, 0x20, 0x47, 0x65, 0x74, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x20, 0x7b, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x66, 0x72, 0x61, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x20, 0x6f, 0x6e, 0x20, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x20, 0x7b, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x31, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x32, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x50, 0x6f, 0x73, 0x74, 0x43, 0x6f, 0x64, 0x65, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x43, 0x69, 0x74, 0x79, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x20, 0x6c, 0x69, 0x6e, 0x65, 0x49, 0x74, 0x65, 0x6d, 0x73, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x73, 0x6b, 0x75, 0x20, 0x71, 0x75, 0x61, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x6f, 0x6e, 0x20, 0x4c, 0x69, 0x6e, 0x65, 0x49, 0x74, 0x65, 0x6d, 0x20, 0x7b, 0x20, 0x69, 0x64, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x7d };
 
-        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("sha1Hash", "f38eab2b98271b185671ca746a186aa7dd0b529f");
+        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("sha1Hash", "b67f7ba7be5e13dca6bce073ddb2ed4380f24650");
 
         public override global::System.String ToString()
         {
@@ -2021,6 +2550,18 @@ namespace BlazorGQL.Api
     ///   orderNumber
     ///   deliveryName
     ///   deliveryAddress1
+    ///   deliveryAddress2
+    ///   deliveryPostCode
+    ///   deliveryCity
+    ///   deliveryCountry
+    ///   lineItems {
+    ///     __typename
+    ///     sku
+    ///     quantity
+    ///     ... on LineItem {
+    ///       id
+    ///     }
+    ///   }
     /// }
     /// </code>
     /// </summary>
@@ -2100,6 +2641,18 @@ namespace BlazorGQL.Api
     ///   orderNumber
     ///   deliveryName
     ///   deliveryAddress1
+    ///   deliveryAddress2
+    ///   deliveryPostCode
+    ///   deliveryCity
+    ///   deliveryCountry
+    ///   lineItems {
+    ///     __typename
+    ///     sku
+    ///     quantity
+    ///     ... on LineItem {
+    ///       id
+    ///     }
+    ///   }
     /// }
     /// </code>
     /// </summary>
@@ -2133,6 +2686,18 @@ namespace BlazorGQL.Api
     ///   orderNumber
     ///   deliveryName
     ///   deliveryAddress1
+    ///   deliveryAddress2
+    ///   deliveryPostCode
+    ///   deliveryCity
+    ///   deliveryCountry
+    ///   lineItems {
+    ///     __typename
+    ///     sku
+    ///     quantity
+    ///     ... on LineItem {
+    ///       id
+    ///     }
+    ///   }
     /// }
     /// </code>
     /// </summary>
@@ -2148,9 +2713,9 @@ namespace BlazorGQL.Api
 
         public global::StrawberryShake.OperationKind Kind => global::StrawberryShake.OperationKind.Query;
 
-        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]{ 0x71, 0x75, 0x65, 0x72, 0x79, 0x20, 0x47, 0x65, 0x74, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x28, 0x24, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x3a, 0x20, 0x49, 0x6e, 0x74, 0x21, 0x29, 0x20, 0x7b, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x28, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x3a, 0x20, 0x24, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x29, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x66, 0x72, 0x61, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x20, 0x6f, 0x6e, 0x20, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x20, 0x7b, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x31, 0x20, 0x7d };
+        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]{ 0x71, 0x75, 0x65, 0x72, 0x79, 0x20, 0x47, 0x65, 0x74, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x28, 0x24, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x3a, 0x20, 0x49, 0x6e, 0x74, 0x21, 0x29, 0x20, 0x7b, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x28, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x3a, 0x20, 0x24, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x29, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x66, 0x72, 0x61, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x20, 0x6f, 0x6e, 0x20, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x20, 0x7b, 0x20, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x31, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x32, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x50, 0x6f, 0x73, 0x74, 0x43, 0x6f, 0x64, 0x65, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x43, 0x69, 0x74, 0x79, 0x20, 0x64, 0x65, 0x6c, 0x69, 0x76, 0x65, 0x72, 0x79, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x20, 0x6c, 0x69, 0x6e, 0x65, 0x49, 0x74, 0x65, 0x6d, 0x73, 0x20, 0x7b, 0x20, 0x5f, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x20, 0x73, 0x6b, 0x75, 0x20, 0x71, 0x75, 0x61, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x20, 0x2e, 0x2e, 0x2e, 0x20, 0x6f, 0x6e, 0x20, 0x4c, 0x69, 0x6e, 0x65, 0x49, 0x74, 0x65, 0x6d, 0x20, 0x7b, 0x20, 0x69, 0x64, 0x20, 0x7d, 0x20, 0x7d, 0x20, 0x7d };
 
-        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("sha1Hash", "bd9738a271198eb76288afaaa5b9a54535103734");
+        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("sha1Hash", "bb3f0446c3b4f79672d5cecaa33c6e4e0ddbc188");
 
         public override global::System.String ToString()
         {
@@ -2183,6 +2748,18 @@ namespace BlazorGQL.Api
     ///   orderNumber
     ///   deliveryName
     ///   deliveryAddress1
+    ///   deliveryAddress2
+    ///   deliveryPostCode
+    ///   deliveryCity
+    ///   deliveryCountry
+    ///   lineItems {
+    ///     __typename
+    ///     sku
+    ///     quantity
+    ///     ... on LineItem {
+    ///       id
+    ///     }
+    ///   }
     /// }
     /// </code>
     /// </summary>
@@ -2281,6 +2858,18 @@ namespace BlazorGQL.Api
     ///   orderNumber
     ///   deliveryName
     ///   deliveryAddress1
+    ///   deliveryAddress2
+    ///   deliveryPostCode
+    ///   deliveryCity
+    ///   deliveryCountry
+    ///   lineItems {
+    ///     __typename
+    ///     sku
+    ///     quantity
+    ///     ... on LineItem {
+    ///       id
+    ///     }
+    ///   }
     /// }
     /// </code>
     /// </summary>
@@ -2739,17 +3328,21 @@ namespace BlazorGQL.Api.State
             var entityIds = new global::System.Collections.Generic.HashSet<global::StrawberryShake.EntityId>();
             global::StrawberryShake.IEntityStoreSnapshot snapshot = default!;
 
+            global::System.Collections.Generic.IReadOnlyList<global::BlazorGQL.Api.State.OrderData?>? ordersId = default!;
             _entityStore.Update(session => 
             {
+                ordersId = DeserializeIGetOrders_OrdersArray(
+                    session,
+                    global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                        obj,
+                        "orders"),
+                    entityIds);
 
                 snapshot = session.CurrentSnapshot;
             });
 
             var resultInfo = new GetOrdersResultInfo(
-                DeserializeIGetOrders_OrdersArray(
-                    global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
-                        obj,
-                        "orders")),
+                ordersId,
                 entityIds,
                 snapshot.Version);
 
@@ -2759,7 +3352,10 @@ namespace BlazorGQL.Api.State
             );
         }
 
-        private global::System.Collections.Generic.IReadOnlyList<global::BlazorGQL.Api.State.OrderData?>? DeserializeIGetOrders_OrdersArray(global::System.Text.Json.JsonElement? obj)
+        private global::System.Collections.Generic.IReadOnlyList<global::BlazorGQL.Api.State.OrderData?>? DeserializeIGetOrders_OrdersArray(
+            global::StrawberryShake.IEntityStoreUpdateSession session,
+            global::System.Text.Json.JsonElement? obj,
+            global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
         {
             if (!obj.HasValue)
             {
@@ -2770,13 +3366,19 @@ namespace BlazorGQL.Api.State
 
             foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
             {
-                orders.Add(DeserializeIGetOrders_Orders(child));
+                orders.Add(DeserializeIGetOrders_Orders(
+                    session,
+                    child,
+                    entityIds));
             }
 
             return orders;
         }
 
-        private global::BlazorGQL.Api.State.OrderData? DeserializeIGetOrders_Orders(global::System.Text.Json.JsonElement? obj)
+        private global::BlazorGQL.Api.State.OrderData? DeserializeIGetOrders_Orders(
+            global::StrawberryShake.IEntityStoreUpdateSession session,
+            global::System.Text.Json.JsonElement? obj,
+            global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
         {
             if (!obj.HasValue)
             {
@@ -2802,7 +3404,29 @@ namespace BlazorGQL.Api.State
                     deliveryAddress1: DeserializeNonNullableString(
                         global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
                             obj,
-                            "deliveryAddress1")));
+                            "deliveryAddress1")),
+                    deliveryAddress2: DeserializeString(
+                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                            obj,
+                            "deliveryAddress2")),
+                    deliveryPostCode: DeserializeNonNullableString(
+                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                            obj,
+                            "deliveryPostCode")),
+                    deliveryCity: DeserializeNonNullableString(
+                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                            obj,
+                            "deliveryCity")),
+                    deliveryCountry: DeserializeNonNullableString(
+                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                            obj,
+                            "deliveryCountry")),
+                    lineItems: UpdateNonNullableIGetOrders_Orders_LineItemsEntityNonNullableArray(
+                        session,
+                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                            obj,
+                            "lineItems"),
+                        entityIds));
             }
 
             throw new global::System.NotSupportedException();
@@ -2826,6 +3450,94 @@ namespace BlazorGQL.Api.State
             }
 
             return _stringParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::System.String? DeserializeString(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            return _stringParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId> UpdateNonNullableIGetOrders_Orders_LineItemsEntityNonNullableArray(
+            global::StrawberryShake.IEntityStoreUpdateSession session,
+            global::System.Text.Json.JsonElement? obj,
+            global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            var lineItems = new global::System.Collections.Generic.List<global::StrawberryShake.EntityId>();
+
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                lineItems.Add(UpdateNonNullableIGetOrders_Orders_LineItemsEntity(
+                    session,
+                    child,
+                    entityIds));
+            }
+
+            return lineItems;
+        }
+
+        private global::StrawberryShake.EntityId UpdateNonNullableIGetOrders_Orders_LineItemsEntity(
+            global::StrawberryShake.IEntityStoreUpdateSession session,
+            global::System.Text.Json.JsonElement? obj,
+            global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            global::StrawberryShake.EntityId entityId = _idSerializer.Parse(obj.Value);
+            entityIds.Add(entityId);
+
+
+            if (entityId.Name.Equals(
+                    "LineItem",
+                    global::System.StringComparison.Ordinal))
+            {
+                if (session.CurrentSnapshot.TryGetEntity(
+                        entityId,
+                        out global::BlazorGQL.Api.State.LineItemEntity? entity))
+                {
+                    session.SetEntity(
+                        entityId,
+                        new global::BlazorGQL.Api.State.LineItemEntity(
+                            DeserializeNonNullableString(
+                                global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                                    obj,
+                                    "sku")),
+                            DeserializeNonNullableInt32(
+                                global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                                    obj,
+                                    "quantity"))));
+                }
+                else
+                {
+                    session.SetEntity(
+                        entityId,
+                        new global::BlazorGQL.Api.State.LineItemEntity(
+                            DeserializeNonNullableString(
+                                global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                                    obj,
+                                    "sku")),
+                            DeserializeNonNullableInt32(
+                                global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                                    obj,
+                                    "quantity"))));
+                }
+
+                return entityId;
+            }
+
+            throw new global::System.NotSupportedException();
         }
     }
 }
@@ -2904,17 +3616,21 @@ namespace BlazorGQL.Api.State
             var entityIds = new global::System.Collections.Generic.HashSet<global::StrawberryShake.EntityId>();
             global::StrawberryShake.IEntityStoreSnapshot snapshot = default!;
 
+            global::BlazorGQL.Api.State.OrderData? orderId = default!;
             _entityStore.Update(session => 
             {
+                orderId = DeserializeIGetOrder_Order(
+                    session,
+                    global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                        obj,
+                        "order"),
+                    entityIds);
 
                 snapshot = session.CurrentSnapshot;
             });
 
             var resultInfo = new GetOrderResultInfo(
-                DeserializeIGetOrder_Order(
-                    global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
-                        obj,
-                        "order")),
+                orderId,
                 entityIds,
                 snapshot.Version);
 
@@ -2924,7 +3640,10 @@ namespace BlazorGQL.Api.State
             );
         }
 
-        private global::BlazorGQL.Api.State.OrderData? DeserializeIGetOrder_Order(global::System.Text.Json.JsonElement? obj)
+        private global::BlazorGQL.Api.State.OrderData? DeserializeIGetOrder_Order(
+            global::StrawberryShake.IEntityStoreUpdateSession session,
+            global::System.Text.Json.JsonElement? obj,
+            global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
         {
             if (!obj.HasValue)
             {
@@ -2950,7 +3669,29 @@ namespace BlazorGQL.Api.State
                     deliveryAddress1: DeserializeNonNullableString(
                         global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
                             obj,
-                            "deliveryAddress1")));
+                            "deliveryAddress1")),
+                    deliveryAddress2: DeserializeString(
+                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                            obj,
+                            "deliveryAddress2")),
+                    deliveryPostCode: DeserializeNonNullableString(
+                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                            obj,
+                            "deliveryPostCode")),
+                    deliveryCity: DeserializeNonNullableString(
+                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                            obj,
+                            "deliveryCity")),
+                    deliveryCountry: DeserializeNonNullableString(
+                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                            obj,
+                            "deliveryCountry")),
+                    lineItems: UpdateNonNullableIGetOrders_Orders_LineItemsEntityNonNullableArray(
+                        session,
+                        global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                            obj,
+                            "lineItems"),
+                        entityIds));
             }
 
             throw new global::System.NotSupportedException();
@@ -2974,6 +3715,94 @@ namespace BlazorGQL.Api.State
             }
 
             return _stringParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::System.String? DeserializeString(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            return _stringParser.Parse(obj.Value.GetString()!);
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId> UpdateNonNullableIGetOrders_Orders_LineItemsEntityNonNullableArray(
+            global::StrawberryShake.IEntityStoreUpdateSession session,
+            global::System.Text.Json.JsonElement? obj,
+            global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            var lineItems = new global::System.Collections.Generic.List<global::StrawberryShake.EntityId>();
+
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                lineItems.Add(UpdateNonNullableIGetOrders_Orders_LineItemsEntity(
+                    session,
+                    child,
+                    entityIds));
+            }
+
+            return lineItems;
+        }
+
+        private global::StrawberryShake.EntityId UpdateNonNullableIGetOrders_Orders_LineItemsEntity(
+            global::StrawberryShake.IEntityStoreUpdateSession session,
+            global::System.Text.Json.JsonElement? obj,
+            global::System.Collections.Generic.ISet<global::StrawberryShake.EntityId> entityIds)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            global::StrawberryShake.EntityId entityId = _idSerializer.Parse(obj.Value);
+            entityIds.Add(entityId);
+
+
+            if (entityId.Name.Equals(
+                    "LineItem",
+                    global::System.StringComparison.Ordinal))
+            {
+                if (session.CurrentSnapshot.TryGetEntity(
+                        entityId,
+                        out global::BlazorGQL.Api.State.LineItemEntity? entity))
+                {
+                    session.SetEntity(
+                        entityId,
+                        new global::BlazorGQL.Api.State.LineItemEntity(
+                            DeserializeNonNullableString(
+                                global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                                    obj,
+                                    "sku")),
+                            DeserializeNonNullableInt32(
+                                global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                                    obj,
+                                    "quantity"))));
+                }
+                else
+                {
+                    session.SetEntity(
+                        entityId,
+                        new global::BlazorGQL.Api.State.LineItemEntity(
+                            DeserializeNonNullableString(
+                                global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                                    obj,
+                                    "sku")),
+                            DeserializeNonNullableInt32(
+                                global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(
+                                    obj,
+                                    "quantity"))));
+                }
+
+                return entityId;
+            }
+
+            throw new global::System.NotSupportedException();
         }
     }
 }
@@ -3443,13 +4272,23 @@ namespace BlazorGQL.Api.State
             global::System.String __typename,
             global::System.Int32? orderNumber = null,
             global::System.String? deliveryName = null,
-            global::System.String? deliveryAddress1 = null)
+            global::System.String? deliveryAddress1 = null,
+            global::System.String? deliveryAddress2 = null,
+            global::System.String? deliveryPostCode = null,
+            global::System.String? deliveryCity = null,
+            global::System.String? deliveryCountry = null,
+            global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId>? lineItems = null)
         {
             this.__typename = __typename
                  ?? throw new global::System.ArgumentNullException(nameof(__typename));
             OrderNumber = orderNumber;
             DeliveryName = deliveryName;
             DeliveryAddress1 = deliveryAddress1;
+            DeliveryAddress2 = deliveryAddress2;
+            DeliveryPostCode = deliveryPostCode;
+            DeliveryCity = deliveryCity;
+            DeliveryCountry = deliveryCountry;
+            LineItems = lineItems;
         }
 
         public global::System.String __typename { get; }
@@ -3459,6 +4298,16 @@ namespace BlazorGQL.Api.State
         public global::System.String? DeliveryName { get; }
 
         public global::System.String? DeliveryAddress1 { get; }
+
+        public global::System.String? DeliveryAddress2 { get; }
+
+        public global::System.String? DeliveryPostCode { get; }
+
+        public global::System.String? DeliveryCity { get; }
+
+        public global::System.String? DeliveryCountry { get; }
+
+        public global::System.Collections.Generic.IReadOnlyList<global::StrawberryShake.EntityId>? LineItems { get; }
     }
 }
 
@@ -3550,6 +4399,9 @@ namespace BlazorGQL.Api.State
 
             return __typename switch
             {
+                "LineItem" => ParseLineItemEntityId(
+                    obj,
+                    __typename),
                 "Product" => ParseProductEntityId(
                     obj,
                     __typename),
@@ -3564,10 +4416,46 @@ namespace BlazorGQL.Api.State
         {
             return entityId.Name switch
             {
+                "LineItem" => FormatLineItemEntityId(entityId),
                 "Product" => FormatProductEntityId(entityId),
                 "Inventory" => FormatInventoryEntityId(entityId),
                 _ => throw new global::System.NotSupportedException()
             };
+        }
+
+        private global::StrawberryShake.EntityId ParseLineItemEntityId(
+            global::System.Text.Json.JsonElement obj,
+            global::System.String type)
+        {
+            return new global::StrawberryShake.EntityId(
+                type,
+                obj
+                    .GetProperty("id")
+                    .GetGuid()!);
+        }
+
+        private global::System.String FormatLineItemEntityId(global::StrawberryShake.EntityId entityId)
+        {
+            using var writer = new global::StrawberryShake.Internal.ArrayWriter();
+            using var jsonWriter = new global::System.Text.Json.Utf8JsonWriter(
+                writer,
+                _options);
+            jsonWriter.WriteStartObject();
+
+            jsonWriter.WriteString(
+                "__typename",
+                entityId.Name);
+
+            jsonWriter.WriteString(
+                "id",
+                (global::System.Guid)entityId.Value);
+            jsonWriter.WriteEndObject();
+            jsonWriter.Flush();
+
+            return global::System.Text.Encoding.UTF8.GetString(
+                writer.GetInternalBuffer(),
+                0,
+                writer.Length);
         }
 
         private global::StrawberryShake.EntityId ParseProductEntityId(
@@ -3729,6 +4617,8 @@ namespace Microsoft.Extensions.DependencyInjection
                     return new global::StrawberryShake.Transport.Http.HttpConnection(() => clientFactory.CreateClient("ApiClient"));
                 });
 
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.LineItemEntity, global::BlazorGQL.Api.GetOrders_Orders_LineItems_LineItem>, global::BlazorGQL.Api.State.GetOrders_Orders_LineItems_LineItemFromLineItemEntityMapper>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.LineItemEntity, global::BlazorGQL.Api.GetOrder_Order_LineItems_LineItem>, global::BlazorGQL.Api.State.GetOrder_Order_LineItems_LineItemFromLineItemEntityMapper>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.ProductEntity, global::BlazorGQL.Api.GetProducts_Products_Product>, global::BlazorGQL.Api.State.GetProducts_Products_ProductFromProductEntityMapper>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IEntityMapper<global::BlazorGQL.Api.State.InventoryEntity, global::BlazorGQL.Api.GetProducts_Products_Inventory_Inventory>, global::BlazorGQL.Api.State.GetProducts_Products_Inventory_InventoryFromInventoryEntityMapper>(services);
 

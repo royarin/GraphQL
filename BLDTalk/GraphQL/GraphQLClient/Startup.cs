@@ -28,6 +28,7 @@ namespace BlazorGQL
             });
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddSingleton<ICartService, CartService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IProductService, ProductService>();
         }

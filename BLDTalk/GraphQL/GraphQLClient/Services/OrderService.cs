@@ -17,12 +17,18 @@ namespace BlazorGQL.Services
 
         public OrderModel GetNewOrder()
         {
-            return new OrderModel();
+            var newOrder = new OrderModel
+            {
+                DeliveryCountry = "Netherlands"
+            };
+            return newOrder;
         }
 
         public async Task<IEnumerable<OrderModel>> GetOrders()
         {
             var result = await _client.GetOrders.ExecuteAsync();
+            if (result.Data != null)
+                return null;
             return result.Data!.Orders.Select(x => new OrderModel()
             {
                 OrderNumber = x.OrderNumber,
@@ -41,15 +47,13 @@ namespace BlazorGQL.Services
                 DeliveryAddress2 = order.DeliveryAddress2,
                 DeliveryPostCode = order.DeliveryPostCode,
                 DeliveryCity = order.DeliveryCity,
-                DeliveryCountry = order.DeliveryCountry
-               
-                
+                DeliveryCountry = order.DeliveryCountry,
+                LineItems = order.LineItems.Select(x => new LineItemInput() { Sku = x.Sku, Quantity = x.Quantity }).ToList()
             };
-
             var result = await _client.AddOrder.ExecuteAsync(input);
-        //    order.OrderNumber = instance.Data.CreateOrder.OrderNumber;
-       
-           if (result.Errors.Any())
+            //    order.OrderNumber = instance.Data.CreateOrder.OrderNumber;
+
+            if (result.Errors.Any())
             {
                 throw new Exception("An error occurred");
             }

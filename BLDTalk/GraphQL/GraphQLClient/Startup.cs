@@ -24,11 +24,12 @@ namespace BlazorGQL
             services.AddApiClient();
             services.AddHttpClient("ApiClient", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:44315/graphql");
+                client.BaseAddress = new Uri("https://localhost:5001/graphql");
             });
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IProductService, ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

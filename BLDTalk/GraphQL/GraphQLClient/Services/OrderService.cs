@@ -1,4 +1,5 @@
-﻿using BlazorGQL.Model;
+﻿using BlazorGQL.Api;
+using BlazorGQL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,8 @@ namespace BlazorGQL.Services
 
         public async Task<IEnumerable<OrderModel>> GetOrders()
         {
-            var results = await _client.GetOrdersAsync();
-            results.EnsureNoErrors();
-            return results.Data!.Orders.Select(x => new OrderModel()
+            var result = await _client.GetOrders.ExecuteAsync();
+            return result.Data!.Orders.Select(x => new OrderModel()
             {
                 OrderNumber = x.OrderNumber,
                 DeliveryName = x.DeliveryName,
@@ -42,11 +42,17 @@ namespace BlazorGQL.Services
                 DeliveryPostCode = order.DeliveryPostCode,
                 DeliveryCity = order.DeliveryCity,
                 DeliveryCountry = order.DeliveryCountry
+               
+                
             };
 
-            var instance = await _client.AddOrderAsync(input);
-            instance.EnsureNoErrors();
-            order.OrderNumber = instance.Data.CreateOrder.OrderNumber;
+            var result = await _client.AddOrder.ExecuteAsync(input);
+        //    order.OrderNumber = instance.Data.CreateOrder.OrderNumber;
+       
+           if (result.Errors.Any())
+            {
+                throw new Exception("An error occurred");
+            }
 
             return order;
         }

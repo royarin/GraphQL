@@ -9,7 +9,7 @@ namespace Product.API.GraphQL.SchemaTypes
             descriptor.Name("Product");
             descriptor.Field(x => x.Id).Type<NonNullType<IntType>>();
             descriptor.Field(x => x.Name).Type<NonNullType<StringType>>();
-            descriptor.Field(x => x.SKU).Name("sku").Type<StringType>().Authorize();
+            descriptor.Field(x => x.SKU).Name("sku").Type<StringType>();
             descriptor.Field(x => x.Description).Type<NonNullType<StringType>>();
             descriptor.Field(x => x.Color).Type<NonNullType<StringType>>();
             descriptor.Field(x => x.Size).Type<NonNullType<StringType>>();
